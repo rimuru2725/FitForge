@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitForge</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-dark text-light">
+
+    <div class="container text-center mt-5">
+        <!-- Main Title -->
+        <h1 class="display-4 mb-3 animated fadeIn">Welcome to FitForge</h1>
+        <p class="lead mt-3 animated fadeIn" style="animation-delay: 0.5s;">Plan your workouts, track your progress, and achieve your fitness goals efficiently.</p>
+        
+        <!-- Login and Register Buttons -->
+        <div class="mt-5">
+            <a href="/login" class="btn btn-primary btn-lg me-3 animated bounceIn" style="animation-delay: 1s;">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="/register" class="btn btn-success btn-lg animated bounceIn" style="animation-delay: 1.5s;">
+                <i class="fas fa-user-plus"></i> Register
+            </a>
+        </div>
+
+        <!-- Icons Section -->
+        <div class="mt-5">
+            <i class="fas fa-dumbbell fa-3x mx-4 animated zoomIn" style="animation-delay: 2s;"></i>
+            <i class="fas fa-heartbeat fa-3x mx-4 animated zoomIn" style="animation-delay: 2.5s;"></i>
+            <i class="fas fa-running fa-3x mx-4 animated zoomIn" style="animation-delay: 3s;"></i>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (for interactivity) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Animations (if needed) -->
+    <script>
+        // Add any custom JavaScript for further animations or effects here.
+    </script>
+</body>
+</html>
