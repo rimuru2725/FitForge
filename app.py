@@ -5,7 +5,7 @@ import requests
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = "vibhveawnsh2527643d"
+app.secret_key = "xxxxxxxxxx"
 bcrypt = Bcrypt(app)
 
 # MongoDB setup
@@ -74,7 +74,7 @@ def generate_workout():
 
     # API request to API Ninjas
     api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
-    headers = {'X-Api-Key': 'krWDIFj/mogpE77rsaVtOA==aQ0a4bfQn2QEJMmo'}
+    headers = {'X-Api-Key': 'xxxxxxxxx'}
 
     response = requests.get(api_url, headers=headers)
 
