@@ -35,9 +35,26 @@
 
 ---
 
-## 🚀 **How to Set Up and Run**
+## Screenshots
 
-1. **Clone the Repository**:  
-   ```bash
-   git clone https://github.com/your-username/FitForge.git
-   cd FitForge
+### 1. Welcome Page
+![Welcome Page](screenshots/welcome.png)
+
+### 2. Login Page
+![Login Page](screenshots/login.png)
+
+### 3. Register Page
+![Register Page](screenshots/register.png)
+
+### 4. Home Page
+![Home Page](screenshots/home.png)
+
+### 5. Workout Generator
+![Workout Generator](screenshots/workout_generator.png)
+
+### 6. Log Workout
+![Log Workout](screenshots/workout_logging.png)
+
+### 7. History Page
+![History Page](screenshots/history.png)
+
