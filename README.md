@@ -67,10 +67,10 @@
 ### 7. History Page
 ![History Page](screenshots/history.png)
 
-### 8. History Page
+### 8. PHYSICAL Health Logging Page
 ![Logging Physical Metrics Page](screenshots/metrics.png)
 
-### 9. History Page
+### 9. Physical Helath Metrics Visuals Page
 ![View Metrics Page](screenshots/viewmetrics.png)
 
 ### 10. Recipe Generation Page
