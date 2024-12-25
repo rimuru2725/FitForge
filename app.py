@@ -3,23 +3,38 @@ from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 import requests
 from datetime import datetime, timedelta
+from functools import wraps
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = "xxxxxxxxxx"
+app.secret_key = "vibhveawnsh2527643d"
 bcrypt = Bcrypt(app)
 
 # MongoDB setup
 client = MongoClient('mongodb://localhost:27017/')
 db = client.workout_planner
 users_collection = db.users
-history_collection = db['history']  # Collection for history
+history_collection = db.history  # Collection for workout history
+metrics_collection = db.metrics  # Collection for health metrics
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            flash("You need to log in first.", "warning")
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html')
 
@@ -59,22 +74,25 @@ def login():
         # Check if user exists
         user = users_collection.find_one({"username": username})
         if user and bcrypt.check_password_hash(user['password'], password):
+            session['user_id'] = str(user['_id'])  # Store user ID in session
             session['username'] = username
             return redirect('/home')
         else:
-            return "Invalid Credentials, please try again"
+            flash("Invalid credentials, please try again.")
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
 
 @app.route('/generate-workout', methods=['POST'])
+@login_required
 def generate_workout():
     muscle = request.form['muscle']
     difficulty = request.form['difficulty']
 
     # API request to API Ninjas
     api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
-    headers = {'X-Api-Key': 'xxxxxxxxx'}
+    headers = {'X-Api-Key': 'krWDIFj/mogpE77rsaVtOA==aQ0a4bfQn2QEJMmo'}
 
     response = requests.get(api_url, headers=headers)
 
@@ -85,87 +103,9 @@ def generate_workout():
         return f"Error: Unable to fetch workout data. Status code: {response.status_code}"
 
 
-@app.route('/log-history', methods=['POST'])
-def log_history():
-    if 'username' not in session:
-        return redirect('/login')
-
-    # Collect data from the form
-    workout = request.form['workout']
-    sets = request.form['sets']
-    weights = request.form['weights']
-    bodyweight = request.form['bodyweight']
-    date = datetime.now().strftime('%Y-%m-%d')
-
-    # Insert into the database
-    history_entry = {
-        'username': session['username'],
-        'date': date,
-        'workout': workout,
-        'sets': sets,
-        'weights': weights,
-        'bodyweight': bodyweight
-    }
-
-    history_collection.insert_one(history_entry)
-    return redirect('/history')
-
-
-@app.route('/history')
-def history():
-    # Get the current date and calculate the date 7 days ago
-    current_date = datetime.now()
-    past_seven_days = current_date - timedelta(days=7)
-
-    # Query the database for workouts within the last 7 days
-    workouts = list(history_collection.find({
-        "date": {"$gte": past_seven_days.strftime('%Y-%m-%d')}  # Ensure string comparison
-    }))
-
-    # Convert MongoDB ObjectId and date fields to be JSON serializable
-    for workout in workouts:
-        workout['_id'] = str(workout['_id'])  # Convert ObjectId to string
-        if 'date' in workout:
-            workout['date'] = workout['date']  # Ensure date remains a string
-
-    # Render the history page and pass the workouts data
-    return render_template('history.html', workouts=workouts)
-
-@app.route('/delete/<entry_id>', methods=['POST'])
-def delete_entry(entry_id):
-    from bson.objectid import ObjectId  # Import ObjectId for querying by MongoDB _id
-    db.history.delete_one({"_id": ObjectId(entry_id)})
-    return redirect('/history')
-
-
-@app.route('/update/<entry_id>', methods=['GET', 'POST'])
-def update_entry(entry_id):
-    from bson.objectid import ObjectId
-    if request.method == 'POST':
-        updated_data = {
-            "date": request.form['date'],
-            "muscle_group": request.form['muscle_group'],
-            "body_weight": request.form['body_weight'],
-            "exercises": [
-                {
-                    "exercise_name": request.form['exercise_name'],
-                    "weight": request.form['weight'],
-                    "reps": request.form['reps']
-                }
-            ]
-        }
-        db.history.update_one({"_id": ObjectId(entry_id)}, {"$set": updated_data})
-        return redirect('/history')
-    entry = db.history.find_one({"_id": ObjectId(entry_id)})
-    return render_template('update.html', entry=entry)
-
-
-
 @app.route('/log-workout', methods=['GET', 'POST'])
+@login_required
 def log_workout():
-    if 'username' not in session:
-        return redirect('/login')
-
     if request.method == 'POST':
         muscle_group = request.form.get('muscle_group')
         exercises = request.form.getlist('exercise_name[]')
@@ -185,10 +125,125 @@ def log_workout():
 
         # Insert into MongoDB
         history_collection.insert_one(workout_log)
-
+        flash("Workout logged successfully!", "success")
         return redirect('/history')
 
     return render_template('log_workout.html')
+
+
+@app.route('/history')
+@login_required
+def history():
+    # Get the current date and calculate the date 7 days ago
+    current_date = datetime.now()
+    past_seven_days = current_date - timedelta(days=7)
+
+    # Query the database for workouts specific to the logged-in user within the last 7 days
+    workouts = list(history_collection.find({
+        "username": session['username'],  # Filter by username
+        "date": {"$gte": past_seven_days.strftime('%Y-%m-%d')}
+    }))
+
+    # Convert MongoDB ObjectId and date fields to be JSON serializable
+    for workout in workouts:
+        workout['_id'] = str(workout['_id'])
+
+    return render_template('history.html', workouts=workouts)
+
+
+@app.route('/metrics', methods=['GET', 'POST'])
+@login_required
+def log_metrics():
+    if request.method == 'POST':
+        metrics_data = {
+            'username': session['username'],
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'weight': request.form['weight'],
+            'heart_rate': request.form['heart_rate'],
+            'bp': request.form['bp'],
+            'steps': request.form['steps'],
+            'calories_burned': request.form['calories_burned'],
+            'calories_consumed': request.form['calories_consumed'],
+            'sleep_hours': request.form['sleep_hours'],
+            'water_intake': request.form['water_intake'],
+        }
+
+        # Insert into MongoDB
+        metrics_collection.insert_one(metrics_data)
+        flash("Metrics logged successfully!", "success")
+        return redirect('/metrics')
+
+    return render_template('metrics.html')
+
+
+@app.route('/metrics/view')
+@login_required
+def view_metrics():
+    # Get the current date and calculate the date 7 days ago
+    current_date = datetime.now()
+    past_seven_days = current_date - timedelta(days=7)
+
+    # Fetch metrics from the last 7 days for the logged-in user
+    metrics = list(metrics_collection.find({
+        "username": session['username'],
+        "date": {"$gte": past_seven_days.strftime('%Y-%m-%d')}
+    }))
+
+    # Convert MongoDB ObjectId to string
+    for metric in metrics:
+        metric['_id'] = str(metric['_id'])
+
+    return render_template('view_metrics.html', metrics=metrics)
+
+
+@app.route('/recipes', methods=['GET', 'POST'])
+@login_required
+def recipes():
+    if request.method == 'POST':
+        query = request.form['query']
+        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&apiKey=2054cb3dded24197bbfb4f436fd5009f'
+
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            recipes = response.json().get('results', [])
+            return render_template('recipes.html', recipes=recipes)
+        else:
+            flash("Failed to fetch recipes. Please try again.", "error")
+
+    return render_template('recipes.html')
+
+
+@app.route('/delete/<entry_id>', methods=['POST'])
+@login_required
+def delete_entry(entry_id):
+    history_collection.delete_one({"_id": ObjectId(entry_id), "username": session['username']})
+    flash("Entry deleted successfully!", "success")
+    return redirect('/history')
+
+
+@app.route('/update/<entry_id>', methods=['GET', 'POST'])
+@login_required
+def update_entry(entry_id):
+    if request.method == 'POST':
+        updated_data = {
+            "date": request.form['date'],
+            "muscle_group": request.form['muscle_group'],
+            "body_weight": request.form['body_weight'],
+            "exercises": [
+                {
+                    "exercise_name": request.form['exercise_name'],
+                    "weight": request.form['weight'],
+                    "reps": request.form['reps']
+                }
+            ]
+        }
+        history_collection.update_one({"_id": ObjectId(entry_id), "username": session['username']}, {"$set": updated_data})
+        flash("Entry updated successfully!", "success")
+        return redirect('/history')
+
+    entry = history_collection.find_one({"_id": ObjectId(entry_id), "username": session['username']})
+    return render_template('update.html', entry=entry)
 
 
 if __name__ == '__main__':

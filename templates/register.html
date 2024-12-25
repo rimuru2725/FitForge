@@ -3,43 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <!-- Bootstrap CSS -->
+    <title>Register - Workout Planner</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        #vv{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-dark text-light">
+<body class="bg-dark">
 
-    <div class="container mt-5">
-        <h1 class="text-center mb-4 animated fadeIn">Register</h1>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid" id="vv">
+            <a class="navbar-brand" href="#">FitForge</a>
+        </div>
+    </nav>
 
-        <form method="POST" action="/register" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required>
-            </div>
-
-            <!-- Register Button -->
-            <button type="submit" class="btn btn-success w-100 mb-3">
-                <i class="fas fa-user-plus"></i> Register
-            </button>
-        </form>
-
-        <!-- Login Link -->
-        <div class="text-center">
-            <p>Already have an account? <a href="/login" class="text-decoration-none text-info">Log in here</a>.</p>
+    <!-- Register Form Container -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow-sm" style="max-width: 400px; width: 100%; padding: 20px;">
+            <h2 class="text-center text-primary mb-4">Register</h2>
+            <form action="/register" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/login" class="text-muted">Already have an account? Login</a>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Bootstrap JS (for interactivity) -->
+    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

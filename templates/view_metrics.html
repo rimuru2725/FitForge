@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Metrics</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        canvas {
+            margin: 20px auto;
+            max-width: 80%;
+            background: #2e2e3f;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        h1 {
+            color: #ff6b6b;
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .chart-wrapper {
+            width: 45%;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">FitForge</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn  text-white" href="/home">
+                            <i class="fas fa-sign-out-alt"></i> Home
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>Your Weekly Metrics</h1>
+    <div class="chart-container">
+        <div class="chart-wrapper"><canvas id="weightChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="heartRateChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="bpChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="stepsChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="caloriesBurnedChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="caloriesConsumedChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="sleepHoursChart"></canvas></div>
+        <div class="chart-wrapper"><canvas id="waterIntakeChart"></canvas></div>
+    </div>
+
+
+
+    <script>
+        var metricsData = JSON.parse('{{ metrics | tojson | safe }}');
+
+        var labels = metricsData.map(m => m.date);
+
+        // Data extraction
+        var weightData = metricsData.map(m => parseFloat(m.weight));
+        var heartRateData = metricsData.map(m => parseInt(m.heart_rate));
+        var systolicBP = metricsData.map(m => parseInt(m.bp.split('/')[0])); // Assuming BP is stored as "120/80"
+        var diastolicBP = metricsData.map(m => parseInt(m.bp.split('/')[1]));
+        var stepsData = metricsData.map(m => parseInt(m.steps));
+        var caloriesBurnedData = metricsData.map(m => parseInt(m.calories_burned));
+        var caloriesConsumedData = metricsData.map(m => parseInt(m.calories_consumed));
+        var sleepHoursData = metricsData.map(m => parseFloat(m.sleep_hours));
+        var waterIntakeData = metricsData.map(m => parseFloat(m.water_intake));
+
+        // Chart for Weight
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: weightData,
+                    borderColor: '#ff6b6b',
+                    backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Heart Rate
+        new Chart(document.getElementById('heartRateChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Heart Rate (bpm)',
+                    data: heartRateData,
+                    borderColor: '#6b6bff',
+                    backgroundColor: 'rgba(107, 107, 255, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Blood Pressure
+        new Chart(document.getElementById('bpChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Systolic (mmHg)',
+                        data: systolicBP,
+                        borderColor: '#ff6b00',
+                        backgroundColor: 'rgba(255, 107, 0, 0.2)',
+                        fill: true,
+                    },
+                    {
+                        label: 'Diastolic (mmHg)',
+                        data: diastolicBP,
+                        borderColor: '#00b6ff',
+                        backgroundColor: 'rgba(0, 182, 255, 0.2)',
+                        fill: true,
+                    }
+                ]
+            }
+        });
+
+        // Chart for Steps
+        new Chart(document.getElementById('stepsChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Steps',
+                    data: stepsData,
+                    borderColor: '#6bff6b',
+                    backgroundColor: 'rgba(107, 255, 107, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Calories Burned
+        new Chart(document.getElementById('caloriesBurnedChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Calories Burned',
+                    data: caloriesBurnedData,
+                    borderColor: '#ff6b6b',
+                    backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Calories Consumed
+        new Chart(document.getElementById('caloriesConsumedChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Calories Consumed',
+                    data: caloriesConsumedData,
+                    borderColor: '#ffc700',
+                    backgroundColor: 'rgba(255, 199, 0, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Sleep Hours
+        new Chart(document.getElementById('sleepHoursChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sleep Hours',
+                    data: sleepHoursData,
+                    borderColor: '#8e44ad',
+                    backgroundColor: 'rgba(142, 68, 173, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+
+        // Chart for Water Intake
+        new Chart(document.getElementById('waterIntakeChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Water Intake (liters)',
+                    data: waterIntakeData,
+                    borderColor: '#00bcd4',
+                    backgroundColor: 'rgba(0, 188, 212, 0.2)',
+                    fill: true,
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
