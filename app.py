@@ -8,7 +8,7 @@ from functools import wraps
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = "vibhveawnsh2527643d"
+app.secret_key = "xxxxxxx"
 bcrypt = Bcrypt(app)
 
 
@@ -95,7 +95,7 @@ def generate_workout():
 
     # API request to API Ninjas
     api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
-    headers = {'X-Api-Key': 'krWDIFj/mogpE77rsaVtOA==aQ0a4bfQn2QEJMmo'}
+    headers = {'X-Api-Key': 'xxxxxx'}
 
     response = requests.get(api_url, headers=headers)
 
@@ -204,7 +204,7 @@ def view_metrics():
 def recipes():
     if request.method == 'POST':
         query = request.form['query']
-        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&addRecipeNutrition=true&apiKey=2054cb3dded24197bbfb4f436fd5009f'
+        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&addRecipeNutrition=true&apiKey=xxxxxxxx'
 
         response = requests.get(api_url)
 
