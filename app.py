@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
@@ -7,8 +8,10 @@ from functools import wraps
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = "xxxxxxx"
+app.secret_key = "vibhveawnsh2527643d"
 bcrypt = Bcrypt(app)
+
+
 
 # MongoDB setup
 client = MongoClient('mongodb://localhost:27017/')
@@ -92,7 +95,7 @@ def generate_workout():
 
     # API request to API Ninjas
     api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
-    headers = {'X-Api-Key': 'xxxxxx'}
+    headers = {'X-Api-Key': 'krWDIFj/mogpE77rsaVtOA==aQ0a4bfQn2QEJMmo'}
 
     response = requests.get(api_url, headers=headers)
 
@@ -201,17 +204,24 @@ def view_metrics():
 def recipes():
     if request.method == 'POST':
         query = request.form['query']
-        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&apiKey=xxxxxx'
+        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&addRecipeNutrition=true&apiKey=2054cb3dded24197bbfb4f436fd5009f'
 
         response = requests.get(api_url)
 
         if response.status_code == 200:
             recipes = response.json().get('results', [])
+            for recipe in recipes:
+                recipe['calories'] = recipe.get('nutrition', {}).get('nutrients', [{}])[0].get('amount', 'N/A')
+                recipe['protein'] = next((n['amount'] for n in recipe.get('nutrition', {}).get('nutrients', []) if n['name'] == 'Protein'), 'N/A')
+                recipe['fats'] = next((n['amount'] for n in recipe.get('nutrition', {}).get('nutrients', []) if n['name'] == 'Fat'), 'N/A')
+                recipe['carbs'] = next((n['amount'] for n in recipe.get('nutrition', {}).get('nutrients', []) if n['name'] == 'Carbohydrates'), 'N/A')
+
             return render_template('recipes.html', recipes=recipes)
         else:
             flash("Failed to fetch recipes. Please try again.", "error")
 
     return render_template('recipes.html')
+
 
 
 @app.route('/delete/<entry_id>', methods=['POST'])

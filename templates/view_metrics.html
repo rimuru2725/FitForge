@@ -2,78 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>View Metrics</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1e1e2f;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
-        }
-        canvas {
-            margin: 20px auto;
-            max-width: 80%;
-            background: #2e2e3f;
-            border-radius: 10px;
-            padding: 10px;
-        }
-        h1 {
-            color: #ff6b6b;
-        }
-        .chart-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .chart-wrapper {
-            width: 45%;
-            margin: 10px;
-        }
-    </style>
 </head>
-<body>
+<body class="bg-dark text-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">FitForge</a>
+            <a class="navbar-brand fw-bold" href="/home">FitForge</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link btn  text-white" href="/home">
-                            <i class="fas fa-sign-out-alt"></i> Home
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home"></i> Home
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <h1>Your Weekly Metrics</h1>
-    <div class="chart-container">
-        <div class="chart-wrapper"><canvas id="weightChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="heartRateChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="bpChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="stepsChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="caloriesBurnedChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="caloriesConsumedChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="sleepHoursChart"></canvas></div>
-        <div class="chart-wrapper"><canvas id="waterIntakeChart"></canvas></div>
-    </div>
 
+    <!-- Header Section -->
+    <header class="container text-center py-5">
+        <h1 class="fw-bold">Your Weekly Metrics</h1>
+        <p class="text-muted">Monitor and track your progress over time</p>
+    </header>
 
+    <!-- Metrics Charts Section -->
+    <main class="container">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <!-- Weight Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="weightChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Heart Rate Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="heartRateChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Blood Pressure Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="bpChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Steps Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="stepsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Calories Burned Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="caloriesBurnedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Calories Consumed Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="caloriesConsumedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Sleep Hours Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="sleepHoursChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Water Intake Chart -->
+            <div class="col">
+                <div class="card bg-secondary text-light shadow-lg border-0">
+                    <div class="card-body">
+                        <canvas id="waterIntakeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         var metricsData = JSON.parse('{{ metrics | tojson | safe }}');
-
+    
         var labels = metricsData.map(m => m.date);
-
+    
         // Data extraction
         var weightData = metricsData.map(m => parseFloat(m.weight));
         var heartRateData = metricsData.map(m => parseInt(m.heart_rate));
@@ -84,7 +125,38 @@
         var caloriesConsumedData = metricsData.map(m => parseInt(m.calories_consumed));
         var sleepHoursData = metricsData.map(m => parseFloat(m.sleep_hours));
         var waterIntakeData = metricsData.map(m => parseFloat(m.water_intake));
-
+    
+        // Chart options for a unified look
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#ffffff', // Set legend text to white
+                    },
+                },
+            },
+            scales: {
+                x: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Grid lines color
+                    },
+                    ticks: {
+                        color: '#ffffff', // X-axis labels color
+                    },
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.2)', // Grid lines color
+                    },
+                    ticks: {
+                        color: '#ffffff', // Y-axis labels color
+                    },
+                },
+            },
+        };
+    
         // Chart for Weight
         new Chart(document.getElementById('weightChart'), {
             type: 'line',
@@ -97,9 +169,10 @@
                     backgroundColor: 'rgba(255, 107, 107, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Heart Rate
         new Chart(document.getElementById('heartRateChart'), {
             type: 'line',
@@ -112,9 +185,10 @@
                     backgroundColor: 'rgba(107, 107, 255, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Blood Pressure
         new Chart(document.getElementById('bpChart'), {
             type: 'line',
@@ -136,9 +210,10 @@
                         fill: true,
                     }
                 ]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Steps
         new Chart(document.getElementById('stepsChart'), {
             type: 'line',
@@ -151,9 +226,10 @@
                     backgroundColor: 'rgba(107, 255, 107, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Calories Burned
         new Chart(document.getElementById('caloriesBurnedChart'), {
             type: 'line',
@@ -166,9 +242,10 @@
                     backgroundColor: 'rgba(255, 107, 107, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Calories Consumed
         new Chart(document.getElementById('caloriesConsumedChart'), {
             type: 'line',
@@ -181,9 +258,10 @@
                     backgroundColor: 'rgba(255, 199, 0, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Sleep Hours
         new Chart(document.getElementById('sleepHoursChart'), {
             type: 'line',
@@ -196,9 +274,10 @@
                     backgroundColor: 'rgba(142, 68, 173, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
-
+    
         // Chart for Water Intake
         new Chart(document.getElementById('waterIntakeChart'), {
             type: 'line',
@@ -211,8 +290,10 @@
                     backgroundColor: 'rgba(0, 188, 212, 0.2)',
                     fill: true,
                 }]
-            }
+            },
+            options: chartOptions
         });
     </script>
+    
 </body>
 </html>

@@ -3,145 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthy Recipes</title>
+    <title>Recipes - FitForge</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #1e1e2f;
-            color: #f8f9fa;
-            font-family: 'Roboto', sans-serif;
-            padding: 20px;
-        }
-        h1 {
-            color: #ff6b6b;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-        }
-        .search-container {
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        .form-control {
-            background-color: #2e2e3f;
-            color: #f8f9fa;
-            border: 1px solid #555;
-        }
-        .form-control:focus {
-            background-color: #3e3e4f;
-            color: #f8f9fa;
-            border-color: #ff6b6b;
-            box-shadow: none;
-        }
-
-        .form-control::placeholder {
-            color: #b0b0b0; /* Light gray for better visibility */
-            font-style: italic; /* Optional: Add a style to distinguish the placeholder */
-            opacity: 1; /* Ensure the color is fully applied (some browsers apply default opacity) */
-        }
-
-        .btn-search {
-            background-color: #ff6b6b;
-            color: #f8f9fa;
-            border: none;
-            transition: all 0.3s ease;
-        }
-        .btn-search:hover {
-            background-color: #ff4a4a;
-            transform: scale(1.05);
-        }
-        .recipe-card {
-            background-color: #2e2e3f;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .recipe-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-        }
-        .recipe-card img {
-            border-bottom: 2px solid #ff6b6b;
-        }
-        .card-body h5 {
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        .card-body a {
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        .card-body a:hover {
-            color: #ff4a4a;
-        }
-        .card-body p {
-            color: #dcdcdc;
-        }
-
-        .back-to-home-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #6c757d; /* Greyish background */
-            color: #ffffff; /* White font */
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for depth */
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Add hover effects */
-            }
-
-        .back-to-home-btn:hover {
-            background-color: #343a40; /* Darker grey on hover */
-            transform: scale(1.05); /* Slight zoom effect on hover */
-            color: #ffcc00; /* Optional - change text color on hover */
-           }
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <a href="/home" class="back-to-home-btn">Home</a>
-
-    <div class="container text-center">
-        <h1>Find Healthy Recipes</h1>
-        <div class="search-container">
-            <form method="POST">
-                <div class="input-group">
-                    <input type="text" name="query" class="form-control" placeholder="Enter a recipe or ingredient..." required>
-                    <button type="submit" class="btn btn-search">Search</button>
-                </div>
-            </form>
+<body class="bg-dark text-light">
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/home">FitForge</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+    <div class="container text-center mt-5">
+        <h1 class="display-4 mb-3">Find Healthy Recipes</h1>
+        <p class="lead mb-4">Search for recipes tailored to your fitness journey, complete with nutritional info.</p>
 
+        <!-- Search Bar -->
+        <form method="POST" class="mb-5">
+            <div class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Enter ingredients or recipe name..." required>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </form>
+
+        <!-- Recipes Section -->
         {% if recipes %}
-            <div class="row mt-4">
+            <div class="row">
                 {% for recipe in recipes %}
                     <div class="col-md-4 mb-4">
-                        <div class="card recipe-card">
+                        <div class="card bg-secondary text-light">
                             {% if recipe.image %}
                                 <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
                             {% endif %}
-                            <div class="card-body text-start">
+                            <div class="card-body">
                                 <h5 class="card-title">{{ recipe.title }}</h5>
-                                <p class="card-text">Try this delicious recipe to support your fitness journey!</p>
-                                <a href="https://spoonacular.com/recipes/{{ recipe.title.replace(' ', '-') }}-{{ recipe.id }}" target="_blank" class="btn btn-link">View Full Recipe</a>
+                                <p class="card-text">
+                                    <strong>Calories:</strong> {{ recipe.calories }} kcal<br>
+                                    <strong>Protein:</strong> {{ recipe.protein }} g<br>
+                                    <strong>Fats:</strong> {{ recipe.fats }} g<br>
+                                    <strong>Carbs:</strong> {{ recipe.carbs }} g
+                                </p>
+                                <a href="https://spoonacular.com/recipes/{{ recipe.title.replace(' ', '-') }}-{{ recipe.id }}" target="_blank" class="btn btn-light">
+                                    <i class="fas fa-external-link-alt"></i> View Recipe
+                                </a>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="mt-5 text-muted" style="color: #fffcfc">No recipes found. Try searching for something else!</p>
+            <p class="text-muted">No recipes found. Try searching for something else!</p>
         {% endif %}
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

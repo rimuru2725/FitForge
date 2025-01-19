@@ -8,58 +8,92 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body class="bg-dark text-light">
-    <header class="container py-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="text-white">Workout History</h1>
-            <nav>
-                <a href="/home" class="btn btn-light btn-sm mx-2">Home</a>
-                <a href="/logout" class="btn btn-danger btn-sm mx-2">Logout</a>
-            </nav>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/home">FitForge</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger text-white" href="/logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="container text-center py-5">
+        <h1 class="fw-bold">Workout History</h1>
+        <p class="text-muted">Review your progress and track your journey!</p>
     </header>
 
+    <!-- Main Content -->
     <main class="container">
         {% if workouts %}
             <div class="row">
                 {% for workout in workouts %}
                     <div class="col-md-4 mb-4">
-                        <div class="card bg-secondary text-light shadow-sm">
+                        <div class="card bg-secondary text-light shadow-lg border-0">
                             <div class="card-body">
-                                <h5 class="card-title">Date: {{ workout['date'] }}</h5>
+                                <h5 class="card-title">Date: <span class="fw-bold">{{ workout['date'] }}</span></h5>
                                 <p class="card-text"><strong>Muscle Group:</strong> {{ workout['muscle_group'] }}</p>
                                 <p class="card-text"><strong>Body Weight:</strong> {{ workout['body_weight'] }} kg</p>
-                                <h6>Exercises:</h6>
+                                <h6 class="fw-bold mt-3">Exercises:</h6>
                                 <ul class="list-group list-group-flush">
                                     {% for exercise in workout['exercises'] %}
-                                        <li class="list-group-item bg-dark text-light">
-                                            <i class="fas fa-dumbbell"></i> {{ exercise['exercise_name'] }}: {{ exercise['weight'] }} kg for {{ exercise['reps'] }} reps
+                                        <li class="list-group-item bg-dark text-light d-flex align-items-center">
+                                            <i class="fas fa-dumbbell me-2 text-warning"></i> 
+                                            {{ exercise['exercise_name'] }}: 
+                                            <span class="fw-bold">{{ exercise['weight'] }} kg</span> for 
+                                            <span class="fw-bold">{{ exercise['reps'] }}</span> reps
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <!-- Update Button -->
-                                <a href="/update/{{ workout['_id'] }}" class="btn btn-warning btn-sm mt-2">
-                                    <i class="fas fa-edit"></i> Update
-                                </a>
-                                <!-- Delete Button -->
-                                <form action="/delete/{{ workout['_id'] }}" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm mt-2">
-                                        <i class="fas fa-trash-alt"></i> Delete
-                                    </button>
-                                </form>
+                                <!-- Buttons -->
+                                <div class="d-flex justify-content-between mt-3">
+                                    <a href="/update/{{ workout['_id'] }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Update
+                                    </a>
+                                    <form action="/delete/{{ workout['_id'] }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="text-center text-muted">No history available. Start logging your workouts!</p>
+            <div class="text-center">
+                <p class="text-muted">No history available. Start logging your workouts!</p>
+                <a href="/home" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Go to Home
+                </a>
+            </div>
         {% endif %}
     </main>
 
-    <!-- Bootstrap JS (for interactivity) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
