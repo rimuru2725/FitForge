@@ -16,6 +16,7 @@
 
 3. **Personalized Recipe Generation**  
    - Generates  recipes based on ingredients available (e.g., potato, tomato).  
+   - Also generates the caloric information about the recipe including the calories and other macros.   
    - Fetches recipes with visuals dynamically using the **Spoonacular API**.  
 
 4. **Workout Logging**  
@@ -40,7 +41,7 @@
 - **Frontend**: HTML, CSS, JavaScript, Bootstrap 
 - **Backend**: Python (Flask Framework)  
 - **Database**: MongoDB  
-- **API**: API Ninjas Exercise API, Spoonacular API 
+- **API**: API Ninjas Exercise API, Spoonacular API. 
 
 ---
 
@@ -67,12 +68,29 @@
 ### 7. History Page
 ![History Page](screenshots/history.png)
 
-### 8. PHYSICAL Health Logging Page
+### 8. Update Workout
+![Update Workout](screenshots/update.png)
+
+### 9. Log Your Physical Metrics Page
 ![Logging Physical Metrics Page](screenshots/metrics.png)
 
-### 9. Physical Helath Metrics Visuals Page
+### 9. View Your Weekly Metrics Page
 ![View Metrics Page](screenshots/viewmetrics.png)
 
 ### 10. Recipe Generation Page
 ![Recipe Page](screenshots/recipes.png)
 
+
+
+## 🤝 **Contributing**  
+Contributions are always welcome! Feel free to open issues or submit pull requests.  
+
+---
+
+## 📧 **Contact**  
+For any queries, reach out to:  
+- **VIVEK**: [vivek27082005@gmail.com] 
+
+
+## 📄 **License**  
+This project is licensed under the [MIT License](LICENSE). 
