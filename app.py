@@ -1,26 +1,30 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+import json
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 import requests
 from datetime import datetime, timedelta
 from functools import wraps
 from bson.objectid import ObjectId
+from dotenv import load_dotenv
 
 
 
 app = Flask(__name__)
-app.secret_key = "vibhveawnsh2527643d"
+app.secret_key = os.getenv('SECRET_KEY')
 bcrypt = Bcrypt(app)
 
 
 
+
 # MongoDB setup
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient(os.getenv('MONGODB_URI'))
 db = client.workout_planner
 users_collection = db.users
-history_collection = db.history  # Collection for workout history
-metrics_collection = db.metrics  # Collection for health metrics
+history_collection = db.history
+metrics_collection = db.metrics
+workout_plans_collection = db.workout_plans
 
 
 def login_required(f):
@@ -95,9 +99,9 @@ def generate_workout():
     muscle = request.form['muscle']
     difficulty = request.form['difficulty']
 
-    # API request to API Ninjas
+    # API request to API Ninjas using environment variable
     api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
-    headers = {'X-Api-Key': 'krWDIFj/mogpE77rsaVtOA==aQ0a4bfQn2QEJMmo'}
+    headers = {'X-Api-Key': os.getenv('API_NINJAS_KEY')}
 
     response = requests.get(api_url, headers=headers)
 
@@ -107,6 +111,159 @@ def generate_workout():
     else:
         return f"Error: Unable to fetch workout data. Status code: {response.status_code}"
 
+    
+
+
+@app.route('/api/workout-plans/<split_type>')
+@login_required
+def get_workout_plan(split_type):
+    # Define workout plans for different splits
+    plans = {
+        "ppl": {
+            "name": "Push Pull Legs",
+            "frequency": "6 days per week",
+            "description": "A balanced split targeting push muscles, pull muscles, and legs on separate days",
+            "split": [
+                {
+                    "day": "Push Day",
+                    "exercises": [
+                        {"name": "Bench Press", "sets": "4", "reps": "8-12", "notes": "Focus on chest engagement"},
+                        {"name": "Overhead Press", "sets": "3", "reps": "8-12", "notes": "Keep core tight"},
+                        {"name": "Incline Dumbbell Press", "sets": "3", "reps": "10-12", "notes": "Control the negative"},
+                        {"name": "Lateral Raises", "sets": "3", "reps": "12-15", "notes": "Light weight, perfect form"},
+                        {"name": "Tricep Pushdowns", "sets": "3", "reps": "12-15", "notes": "Keep elbows tucked"}
+                    ]
+                },
+                {
+                    "day": "Pull Day",
+                    "exercises": [
+                        {"name": "Barbell Rows", "sets": "4", "reps": "8-12", "notes": "Keep back straight"},
+                        {"name": "Pull-ups/Lat Pulldowns", "sets": "3", "reps": "8-12", "notes": "Full range of motion"},
+                        {"name": "Face Pulls", "sets": "3", "reps": "12-15", "notes": "Focus on rear delts"},
+                        {"name": "Bicep Curls", "sets": "3", "reps": "12-15", "notes": "No swinging"},
+                        {"name": "Hammer Curls", "sets": "3", "reps": "12-15", "notes": "Control the movement"}
+                    ]
+                },
+                {
+                    "day": "Legs Day",
+                    "exercises": [
+                        {"name": "Squats", "sets": "4", "reps": "8-12", "notes": "Break parallel"},
+                        {"name": "Romanian Deadlifts", "sets": "3", "reps": "8-12", "notes": "Feel the hamstrings"},
+                        {"name": "Leg Press", "sets": "3", "reps": "10-12", "notes": "Full range of motion"},
+                        {"name": "Calf Raises", "sets": "4", "reps": "15-20", "notes": "Squeeze at the top"},
+                        {"name": "Leg Extensions", "sets": "3", "reps": "12-15", "notes": "Control the negative"}
+                    ]
+                }
+            ]
+        },
+        "bro": {
+            "name": "Bro Split",
+            "frequency": "5 days per week",
+            "description": "Traditional bodybuilding split focusing on one muscle group per day",
+            "split": [
+                {
+                    "day": "Chest Day",
+                    "exercises": [
+                        {"name": "Flat Bench Press", "sets": "4", "reps": "8-12", "notes": "Wide grip"},
+                        {"name": "Incline Dumbbell Press", "sets": "3", "reps": "8-12", "notes": "Feel the upper chest"},
+                        {"name": "Cable Flyes", "sets": "3", "reps": "12-15", "notes": "Squeeze at the center"},
+                        {"name": "Dips", "sets": "3", "reps": "10-12", "notes": "Lean forward for chest focus"}
+                    ]
+                },
+                {
+                    "day": "Back Day",
+                    "exercises": [
+                        {"name": "Deadlifts", "sets": "4", "reps": "6-8", "notes": "Keep back straight"},
+                        {"name": "Pull-ups", "sets": "3", "reps": "8-12", "notes": "Wide grip"},
+                        {"name": "Barbell Rows", "sets": "3", "reps": "10-12", "notes": "Squeeze shoulder blades"},
+                        {"name": "Lat Pulldowns", "sets": "3", "reps": "12-15", "notes": "Feel the lats stretch"}
+                    ]
+                },
+                {
+                    "day": "Shoulder Day",
+                    "exercises": [
+                        {"name": "Military Press", "sets": "4", "reps": "8-10", "notes": "Keep core tight"},
+                        {"name": "Lateral Raises", "sets": "4", "reps": "12-15", "notes": "Control the movement"},
+                        {"name": "Front Raises", "sets": "3", "reps": "12-15", "notes": "Alternate arms"},
+                        {"name": "Face Pulls", "sets": "3", "reps": "15-20", "notes": "High reps for rear delts"}
+                    ]
+                },
+                
+                {
+                    "day": "Arms Day",
+                    "exercises": [
+                        {"name": "Barbell Curls", "sets": "4", "reps": "8-12", "notes": "Keep elbows fixed"},
+                        {"name": "Skull Crushers", "sets": "4", "reps": "8-12", "notes": "Don't flare elbows"},
+                        {"name": "Hammer Curls", "sets": "3", "reps": "10-12", "notes": "Focus on brachialis"},
+                        {"name": "Tricep Pushdowns", "sets": "3", "reps": "12-15", "notes": "Keep elbows at sides"},
+                        {"name": "Incline Dumbbell Curls", "sets": "3", "reps": "12-15", "notes": "Full range of motion"},
+                        {"name": "Overhead Tricep Extension", "sets": "3", "reps": "12-15", "notes": "Keep elbows close"},
+                        {"name": "21s Bicep Curls", "sets": "3", "reps": "21", "notes": "7 lower half, 7 upper half, 7 full range"}
+                    ]
+                },
+                {
+                    "day": "Legs Day",
+                    "exercises": [
+                        {"name": "Barbell Squats", "sets": "4", "reps": "8-10", "notes": "Break parallel"},
+                        {"name": "Romanian Deadlifts", "sets": "4", "reps": "8-12", "notes": "Focus on hamstrings"},
+                        {"name": "Leg Press", "sets": "3", "reps": "10-12", "notes": "Don't lock knees"},
+                        {"name": "Walking Lunges", "sets": "3", "reps": "12/leg", "notes": "Keep torso upright"},
+                        {"name": "Leg Extensions", "sets": "3", "reps": "12-15", "notes": "Squeeze quads at top"},
+                        {"name": "Leg Curls", "sets": "3", "reps": "12-15", "notes": "Control the negative"},
+                        {"name": "Standing Calf Raises", "sets": "4", "reps": "15-20", "notes": "Full range of motion"}
+                    ]
+                }
+            ]
+        },
+        "full": {
+                "name": "Full Body Split",
+                "frequency": "3 days per week",
+                "description": "Complete body workout focusing on compound movements and major muscle groups in each session",
+                "split": [
+                   {
+            "day": "Full Body A",
+            "exercises": [
+                {"name": "Barbell Squats", "sets": "4", "reps": "8-10", "notes": "Focus on depth and form"},
+                {"name": "Bench Press", "sets": "4", "reps": "8-12", "notes": "Control the negative"},
+                {"name": "Bent Over Rows", "sets": "3", "reps": "8-12", "notes": "Keep back straight"},
+                {"name": "Overhead Press", "sets": "3", "reps": "8-12", "notes": "Maintain tight core"},
+                {"name": "Romanian Deadlifts", "sets": "3", "reps": "10-12", "notes": "Feel hamstring stretch"},
+                {"name": "Lateral Raises", "sets": "3", "reps": "12-15", "notes": "Light weight, strict form"},
+                {"name": "Plank", "sets": "3", "reps": "30-45 sec", "notes": "Keep body straight"}
+            ]
+                  },
+        {
+            "day": "Full Body B",
+            "exercises": [
+                {"name": "Deadlifts", "sets": "4", "reps": "6-8", "notes": "Maintain neutral spine"},
+                {"name": "Incline Dumbbell Press", "sets": "4", "reps": "8-12", "notes": "Focus on upper chest"},
+                {"name": "Pull-ups/Lat Pulldowns", "sets": "3", "reps": "8-12", "notes": "Full range of motion"},
+                {"name": "Dumbbell Shoulder Press", "sets": "3", "reps": "8-12", "notes": "Control throughout"},
+                {"name": "Leg Press", "sets": "3", "reps": "10-12", "notes": "Feet shoulder-width apart"},
+                {"name": "Face Pulls", "sets": "3", "reps": "12-15", "notes": "Pull to forehead level"},
+                {"name": "Cable Crunches", "sets": "3", "reps": "12-15", "notes": "Squeeze abs at bottom"}
+            ]
+        },
+        {
+            "day": "Full Body C",
+            "exercises": [
+                {"name": "Front Squats", "sets": "4", "reps": "8-10", "notes": "Keep elbows high"},
+                {"name": "Dips", "sets": "3", "reps": "8-12", "notes": "Control descent"},
+                {"name": "Barbell Rows", "sets": "3", "reps": "8-12", "notes": "Squeeze shoulder blades"},
+                {"name": "Arnold Press", "sets": "3", "reps": "10-12", "notes": "Rotate dumbbells smoothly"},
+                {"name": "Bulgarian Split Squats", "sets": "3", "reps": "10-12/side", "notes": "Keep front knee aligned"},
+                {"name": "Chin-ups", "sets": "3", "reps": "8-12", "notes": "Supinated grip"},
+                {"name": "Russian Twists", "sets": "3", "reps": "20/side", "notes": "Keep feet off ground"}
+            ]
+        }
+    ]
+    }
+    
+    }
+    
+    return jsonify(plans.get(split_type, {"error": "Split not found"}))
+    
+    
 
 @app.route('/log-workout', methods=['GET', 'POST'])
 @login_required
@@ -206,9 +363,14 @@ def view_metrics():
 def recipes():
     if request.method == 'POST':
         query = request.form['query']
-        api_url = f'https://api.spoonacular.com/recipes/complexSearch?query={query}&addRecipeNutrition=true&apiKey=2054cb3dded24197bbfb4f436fd5009f'
+        api_url = f'https://api.spoonacular.com/recipes/complexSearch'
+        params = {
+            'query': query,
+            'addRecipeNutrition': True,
+            'apiKey': os.getenv('SPOONACULAR_API_KEY')
+        }
 
-        response = requests.get(api_url)
+        response = requests.get(api_url, params=params)
 
         if response.status_code == 200:
             recipes = response.json().get('results', [])
@@ -259,4 +421,6 @@ def update_entry(entry_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use environment variable for debug mode
+    debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode)

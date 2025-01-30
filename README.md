@@ -30,8 +30,11 @@
 6. **User Authentication**  
    - Secure login and registration system for personalized user accounts.  
 
-7. **Aesthetic UI/UX**  
-   - Dark theme with visually appealing CSS animations.  
+7. **Workout plans**  
+   - Access our pre made workout plans based on some of the popular workout splits. 
+
+8. **Aesthetic UI/UX**  
+   - Dark theme with visually appealing Bootstrap.  
    - Clean layout for seamless user experience.  
 
 ---
@@ -62,25 +65,77 @@
 ### 5. Workout Generator
 ![Workout Generator](screenshots/workout_generator.png)
 
-### 6. Log Workout
+### 6. Workout Plans
+![Workout Generator](screenshots/workout_plan1.png)
+
+### 7. Workout plan
+![Workout Generator](screenshots/workout_plan2.png)
+
+### 8. Log Workout
 ![Log Workout](screenshots/workout_logging.png)
 
-### 7. History Page
+### 9. History Page
 ![History Page](screenshots/history.png)
 
-### 8. Update Workout
+### 10. Update Workout
 ![Update Workout](screenshots/update.png)
 
-### 9. Log Your Physical Metrics Page
+### 11. Log Your Physical Metrics Page
 ![Logging Physical Metrics Page](screenshots/metrics.png)
 
-### 9. View Your Weekly Metrics Page
+### 12. View Your Weekly Metrics Page
 ![View Metrics Page](screenshots/viewmetrics.png)
 
-### 10. Recipe Generation Page
+### 13. Recipe Generation Page
 ![Recipe Page](screenshots/recipes.png)
 
 
+
+
+## Setup and Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/rimuru2725/FitForge.git
+cd fitforge
+```
+
+2. Create and activate virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+4. Create a .env file in the project root and add your environment variables:
+```
+SECRET_KEY=your_secret_key
+MONGODB_URI=your_mongodb_uri
+API_NINJAS_KEY=your_api_ninjas_key
+SPOONACULAR_API_KEY=your_spoonacular_key
+```
+
+5. Run the application
+```bash
+python app.py
+```
+
+## Deployment
+
+[Add deployment link when available]
+
+## Author
+
+[VIVEK]
+
+## Acknowledgments
+
+- API Ninjas for exercise data
+- Spoonacular for recipe data
 
 ## 🤝 **Contributing**  
 Contributions are always welcome! Feel free to open issues or submit pull requests.  

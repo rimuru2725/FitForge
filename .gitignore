@@ -1,0 +1,27 @@
+# Virtual Environment
+venv/
+env/
+.env
+
+# Configuration files with sensitive data
+config.py
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
