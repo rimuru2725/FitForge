@@ -1,8 +1,10 @@
 import os
 import json
+import certifi
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 import requests
 from datetime import datetime, timedelta
 from functools import wraps
@@ -19,7 +21,7 @@ bcrypt = Bcrypt(app)
 
 
 # MongoDB setup
-client = MongoClient(os.getenv('MONGODB_URI'))
+client = MongoClient(os.getenv('MONGODB_URI'),server_api=ServerApi('1'))
 db = client.workout_planner
 users_collection = db.users
 history_collection = db.history
