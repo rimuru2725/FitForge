@@ -5,6 +5,7 @@ env/
 
 # Configuration files with sensitive data
 config.py
+password_encoder.py
 
 # Python
 __pycache__/
