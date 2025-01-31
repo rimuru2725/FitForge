@@ -66,7 +66,6 @@ graph LR
 
 | Feature | Preview |
 |---------|----------|
-| 
 | **Login Page** | <img src="screenshots/login.png" width="400" style="border-radius: 5px"> |
 | **Register Page** | <img src="screenshots/register.png" width="400" style="border-radius: 5px"> |
 | **Home Page** | <img src="screenshots/home.png" width="400" style="border-radius: 5px"> |
