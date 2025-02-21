@@ -11,87 +11,200 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             min-height: 100vh;
         }
+
+        /* Enhanced Navbar Styles */
         .navbar {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
         }
+
+        .navbar-brand {
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .navbar-brand i {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover i {
+            transform: rotate(20deg);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.75rem 1.5rem !important;
+            margin: 0 0.25rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bs-primary);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Enhanced Card Styles */
         .card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s ease;
         }
+
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
         }
+
         .form-select {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        .form-select:focus {
             background-color: rgba(255, 255, 255, 0.15);
-            border-color: var(--bs-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
-            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+            transition: all 0.3s ease;
         }
-        .form-select option {
-            background-color: #1a1a1a;
+
+        .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
         }
+
         .btn-glow {
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            border-radius: 10px;
         }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-glow:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
         .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.4);
         }
+
         .action-card {
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
         }
+
         .action-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
+
         .feature-icon {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-        .modal-content {
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        .workout-plan-card {
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 4.5rem;
+            height: 4.5rem;
             transition: all 0.3s ease;
         }
+
+        .card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 26, 0.98);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .workout-plan-card {
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+        }
+
         .workout-plan-card:hover {
             border-color: var(--bs-primary);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
+
         .nav-pills .nav-link {
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0 0.5rem;
-            border-radius: 50px;
-            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
         }
-        .nav-pills .nav-link.active {
-            background-color: var(--bs-primary);
+
+        .nav-pills .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
+
         .accordion-button {
-            background: rgba(255, 255, 255, 0.05) !important;
+            transition: all 0.3s ease;
         }
-        .accordion-button:not(.collapsed) {
-            background: rgba(255, 255, 255, 0.1) !important;
+
+        /* Add these styles to your existing CSS in home.html */
+        .form-select {
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            background-color: rgba(0, 0, 0, 0.9);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
+        }
+
+        /* This crucial part styles the dropdown options */
+        .form-select option {
+            background-color: #1a1a1a;
+            color: white;
         }
     </style>
 </head>
@@ -132,13 +245,13 @@
         </div>
     </nav>
 
+    <!-- Rest of your existing HTML remains unchanged -->
     <div class="container py-5 mt-5">
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold">Welcome to FitForge</h1>
             <p class="lead text-light-50">Your personal fitness companion</p>
         </div>
 
-        <!-- Navigation Pills -->
         <ul class="nav nav-pills justify-content-center mb-5" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#generate" type="button" role="tab">
@@ -152,9 +265,7 @@
             </li>
         </ul>
 
-        <!-- Tab Content -->
         <div class="tab-content">
-            <!-- Generate Workout Tab -->
             <div class="tab-pane fade show active" id="generate" role="tabpanel">
                 <div class="row g-4">
                     <div class="col-lg-8">
@@ -233,7 +344,6 @@
                 </div>
             </div>
 
-            <!-- Workout Plans Tab -->
             <div class="tab-pane fade" id="plans" role="tabpanel">
                 <div class="row g-4">
                     <div class="col-md-4">
@@ -285,7 +395,6 @@
         </div>
     </div>
 
-    <!-- Modal for displaying workout plan -->
     <div class="modal fade" id="workoutPlanModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

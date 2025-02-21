@@ -10,79 +10,232 @@
         body {
             background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
+
+        /* Enhanced Navbar */
         .navbar {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
         }
-        .card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+
+        .navbar-brand {
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .navbar-brand i {
             transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover i {
+            transform: rotate(20deg);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.75rem 1.5rem !important;
+            margin: 0 0.25rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
             overflow: hidden;
         }
-        .card:hover {
-            transform: translateY(-5px);
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bs-primary);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
         }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Enhanced UI Elements */
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease;
         }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
         .search-container {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 2.5rem;
             margin-bottom: 3rem;
+            transition: all 0.3s ease;
         }
+
+        .search-container:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
         .form-control {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
             border-radius: 50px 0 0 50px;
             padding-left: 1.5rem;
+            transition: all 0.3s ease;
         }
+
         .form-control:focus {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.2);
             border-color: var(--bs-primary);
-            color: white;
-            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+            box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
         }
+
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
+
         .btn-search {
             border-radius: 0 50px 50px 0;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+            padding: 0.75rem 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
         }
+
+        .btn-search::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-search:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.4);
+        }
+
         .btn-glow {
             position: relative;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            border-radius: 10px;
         }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-glow:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
         .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.4);
         }
+
         .nutrition-info {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            padding: 1rem;
+            padding: 1.25rem;
             margin: 1rem 0;
+            transition: all 0.3s ease;
         }
-        .nutrition-item {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            margin: 0.25rem;
+
+        .card:hover .nutrition-info {
             background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nutrition-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            margin: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nutrition-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .empty-state {
+            transition: all 0.3s ease;
+        }
+
+        .empty-state:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -101,6 +254,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/home">
                             <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">
+                            <i class="fas fa-history me-2"></i>History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/metrics">
+                            <i class="fas fa-plus me-2"></i>Metrics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger ms-2 px-3" href="/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
                         </a>
                     </li>
                 </ul>
@@ -162,7 +330,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="card">
+            <div class="card empty-state">
                 <div class="card-body text-center p-5">
                     <i class="fas fa-search fa-3x mb-3 text-light-50"></i>
                     <p class="lead mb-0">No recipes found. Try searching for something else!</p>

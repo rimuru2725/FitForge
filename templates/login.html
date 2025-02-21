@@ -10,51 +10,196 @@
         body {
             background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             min-height: 100vh;
+            position: relative;
+            /* Fixed scrolling issue by removing overflow: hidden */
         }
+
+        /* Animated Background Effect - Modified for better performance */
+        body::before {
+            content: '';
+            position: fixed; /* Changed to fixed to prevent scrolling issues */
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            animation: rotateGlow 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Login Card */
         .login-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            margin: 2rem auto; /* Added margin for better spacing on small screens */
         }
+
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(58, 134, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .login-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Form Styling */
         .form-control {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
+            border-radius: 50px;
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s ease;
         }
+
         .form-control:focus {
             background: rgba(255, 255, 255, 0.15);
             border-color: var(--bs-primary);
+            box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
             color: white;
-            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
         }
+
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-right: none;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 50px 0 0 50px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 50px 50px 0;
+        }
+
+        .form-control:focus + .input-group-text,
+        .form-control:not(:placeholder-shown) + .input-group-text {
+            border-color: var(--bs-primary);
+            color: var(--bs-primary);
+        }
+
+        /* Button Styling */
         .btn-glow {
             position: relative;
             overflow: hidden;
+            border-radius: 50px;
+            padding: 0.75rem 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-glow:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.5);
+        }
+
+        /* Header Styling */
+        .login-header i {
             transition: all 0.3s ease;
         }
-        .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+
+        .login-card:hover .login-header i {
+            transform: scale(1.1);
+            text-shadow: 0 0 15px rgba(var(--bs-primary-rgb), 0.5);
+        }
+
+        .login-header h2 {
+            transition: all 0.3s ease;
+        }
+
+        .login-card:hover .login-header h2 {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Link Styling */
+        .register-link {
+            transition: all 0.3s ease;
+        }
+
+        .register-link span {
+            position: relative;
+        }
+
+        .register-link span::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--bs-primary);
+            transition: width 0.3s ease;
+        }
+
+        .register-link:hover span::after {
+            width: 100%;
+        }
+
+        .register-link:hover {
+            color: #fff;
+        }
+
+        /* Added responsive styling */
+        @media (max-width: 576px) {
+            .login-card {
+                margin: 1rem;
+                padding: 1.5rem !important;
+            }
         }
     </style>
 </head>
 <body class="text-light">
-    <nav class="navbar navbar-dark">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <i class="fas fa-dumbbell me-2"></i>
-                <span class="fw-bold">FitForge</span>
-            </a>
-        </div>
-    </nav>
-
-    <div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="container d-flex align-items-center justify-content-center py-5" style="min-height: 100vh;">
         <div class="login-card p-4 p-md-5" style="max-width: 400px; width: 100%;">
-            <div class="text-center mb-4">
+            <div class="text-center mb-4 login-header">
                 <i class="fas fa-user-circle fa-3x text-primary mb-3"></i>
                 <h2 class="fw-bold">Welcome Back</h2>
                 <p class="text-light-50">Sign in to continue your fitness journey</p>
@@ -63,25 +208,25 @@
             <form action="/login" method="POST">
                 <div class="mb-4">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0 text-light">
+                        <span class="input-group-text">
                             <i class="fas fa-user"></i>
                         </span>
-                        <input type="text" class="form-control border-start-0" id="username" name="username" placeholder="Username" required>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
                     </div>
                 </div>
                 <div class="mb-4">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0 text-light">
+                        <span class="input-group-text">
                             <i class="fas fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control border-start-0" id="password" name="password" placeholder="Password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-2 mb-3 btn-glow">
                     <i class="fas fa-sign-in-alt me-2"></i>Login
                 </button>
                 <div class="text-center">
-                    <a href="/register" class="text-light-50 text-decoration-none">
+                    <a href="/register" class="text-light-50 text-decoration-none register-link">
                         Don't have an account? <span class="text-primary">Register</span>
                     </a>
                 </div>

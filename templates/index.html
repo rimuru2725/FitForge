@@ -3,75 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitForge</title>
+    <title>FitForge - Forge Your Fitness</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
+        
         .hero-section {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            animation: rotateGlow 15s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .title-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
         .feature-icon {
             transition: transform 0.3s ease;
         }
-        .feature-icon:hover {
-            transform: scale(1.1);
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
         }
+
         .btn-glow {
             position: relative;
             overflow: hidden;
+            padding: 12px 30px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
+
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-glow:hover::after {
+            width: 200%;
+            height: 200%;
+        }
+
         .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
         }
     </style>
 </head>
 <body class="text-light">
     <div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
-        <div class="hero-section p-5 text-center w-100">
-            <h1 class="display-3 fw-bold mb-4">
+        <div class="hero-section p-5 text-center w-100" style="max-width: 1000px;">
+            <h1 class="display-3 fw-bold mb-4 title-glow">
                 <i class="fas fa-dumbbell me-3"></i>FitForge
             </h1>
-            <p class="lead mb-5 text-light-50">Transform your fitness journey with personalized workouts and progress tracking</p>
+            <p class="lead mb-5 text-light-50 fw-light">Forge your perfect physique with cutting-edge fitness tools</p>
             
-            <div class="row justify-content-center mb-5">
-                <div class="col-md-4 mb-4">
-                    <div class="feature-icon text-primary mb-3">
-                        <i class="fas fa-bolt fa-3x"></i>
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-primary mb-3">
+                            <i class="fas fa-dumbbell fa-2x"></i>
+                        </div>
+                        <h5>Personalized Workouts</h5>
+                        <p class="text-light-50 small">Generate tailored workout plans for your goals</p>
                     </div>
-                    <h4>Smart Workouts</h4>
-                    <p class="text-light-50">AI-powered workout plans tailored to your goals</p>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-icon text-success mb-3">
-                        <i class="fas fa-chart-line fa-3x"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-success mb-3">
+                            <i class="fas fa-utensils fa-2x"></i>
+                        </div>
+                        <h5>Smart Recipes</h5>
+                        <p class="text-light-50 small">Create meals based on your ingredients</p>
                     </div>
-                    <h4>Track Progress</h4>
-                    <p class="text-light-50">Monitor your fitness journey with detailed analytics</p>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-icon text-warning mb-3">
-                        <i class="fas fa-users fa-3x"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-warning mb-3">
+                            <i class="fas fa-list-check fa-2x"></i>
+                        </div>
+                        <h5>Workout Logging</h5>
+                        <p class="text-light-50 small">Track daily workouts and review history</p>
                     </div>
-                    <h4>Community</h4>
-                    <p class="text-light-50">Join a community of fitness enthusiasts</p>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-info mb-3">
+                            <i class="fas fa-edit fa-2x"></i>
+                        </div>
+                        <h5>Flexible Tracking</h5>
+                        <p class="text-light-50 small">Update or delete logged workouts easily</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-danger mb-3">
+                            <i class="fas fa-heartbeat fa-2x"></i>
+                        </div>
+                        <h5>Health Metrics</h5>
+                        <p class="text-light-50 small">Log your physical health measurements</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-card">
+                        <div class="feature-icon text-primary mb-3">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h5>Visual Progress</h5>
+                        <p class="text-light-50 small">See 7-day metrics in stunning charts</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/login" class="btn btn-primary btn-lg px-5 btn-glow">
+            <div class="d-flex justify-content-center gap-4">
+                <a href="/login" class="btn btn-primary btn-lg btn-glow">
                     <i class="fas fa-sign-in-alt me-2"></i>Login
                 </a>
-                <a href="/register" class="btn btn-outline-light btn-lg px-5 btn-glow">
-                    <i class="fas fa-user-plus me-2"></i>Register
+                <a href="/register" class="btn btn-outline-light btn-lg btn-glow">
+                    <i class="fas fa-user-plus me-2"></i>Sign Up
                 </a>
             </div>
         </div>

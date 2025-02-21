@@ -64,20 +64,75 @@ graph LR
 
 <div align="center">
 
-| Feature | Preview |
-|---------|----------|
-| 
-| **Login Page** | <img src="screenshots/login.png" width="400" style="border-radius: 5px"> |
-| **Register Page** | <img src="screenshots/register.png" width="400" style="border-radius: 5px"> |
-| **Home Page** | <img src="screenshots/home.png" width="400" style="border-radius: 5px"> |
-| **Workout Generator** | <img src="screenshots/workout_generator.png" width="400" style="border-radius: 5px"> |
-| **Workout Plans Page** | <img src="screenshots/workout_plan1.png" width="400" style="border-radius: 5px"> |
-| **Workout Plans Page** | <img src="screenshots/workout_plan2.png" width="400" style="border-radius: 5px"> |
-| **Workout Logging Page** | <img src="screenshots/workout_logging.png" width="400" style="border-radius: 5px"> |
-| **History Page** | <img src="screenshots/history.png" width="400" style="border-radius: 5px"> |
-| **Metrics Page** | <img src="screenshots/metrics.png" width="400" style="border-radius: 5px"> |
-| **Recipe AI** | <img src="screenshots/recipes.png" width="400" style="border-radius: 5px"> |
-| **Progress Tracking** | <img src="screenshots/viewmetrics.png" width="400" style="border-radius: 5px"> |
+### Login & Registration
+<p align="center">
+  <img src="screenshots/login.png" width="700" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Login Page - User authentication with secure login</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/register.png" width="700" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Register Page - New user account creation</em>
+</p>
+
+### Core Features
+<p align="center">
+  <img src="screenshots/home.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Home Page - Dashboard with key information and navigation</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/workout_generator.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Workout Generator - AI-powered custom workout creation</em>
+</p>
+
+### Workout Planning
+<p align="center">
+  <img src="screenshots/workout_plan1.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Workout Plans - Browse and select workout programs</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/workout_plan2.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Workout Plan Details - Comprehensive training schedule view</em>
+</p>
+
+### Tracking & Analytics
+<p align="center">
+  <img src="screenshots/workout_logging.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Workout Logging - Record exercises, sets, and reps</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/history.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>History Page - View past workouts and performance</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/update.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Update Page - Update your workout history</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/metrics.png" width="800" style="border-radius: 10px; margin-bottom: 20px">
+  <br><em>Metrics Dashboard - Performance statistics and trends</em>
+</p>
+
+### Nutrition & Progress
+<p align="center">
+  <img src="screenshots/recipes.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Recipe AI - Personalized nutrition recommendations</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/recipes2.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Personalized nutrition recommendations</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/viewmetrics.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Progress Tracking - Visual representation of fitness journey</em>
+</p>
 
 </div>
 

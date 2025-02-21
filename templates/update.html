@@ -11,56 +11,241 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             min-height: 100vh;
             color: #eaeaea;
+            overflow-x: hidden;
         }
-        .update-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+
+        /* Enhanced Navbar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
-        .form-control {
+
+        .navbar-brand {
+            position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
+            transform: translateY(-2px);
         }
-        .form-control:focus {
+
+        .navbar-brand i {
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover i {
+            transform: rotate(20deg);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.75rem 1.5rem !important;
+            margin: 0 0.25rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--bs-primary);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Enhanced UI Elements */
+        .update-card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .update-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-control {
             background: rgba(255, 255, 255, 0.15);
-            border-color: var(--bs-primary);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
-            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+            border-radius: 10px;
+            padding: 0.75rem 1.25rem;
+            transition: all 0.3s ease;
         }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
+            color: white;
+        }
+
         .form-control::placeholder {
             color: rgba(255, 255, 255, 0.5);
         }
+
         .form-section {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
+
+        .form-section:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-section h5 {
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover h5 {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
         .btn-glow {
             position: relative;
             overflow: hidden;
+            transition: all 0.4s ease;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .btn-glow:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(var(--bs-primary-rgb), 0.4);
+        }
+
+        label {
             transition: all 0.3s ease;
         }
-        .btn-glow:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(var(--bs-primary-rgb), 0.5);
+
+        .form-control:focus + label,
+        .form-control:not(:placeholder-shown) + label {
+            color: var(--bs-primary);
+        }
+
+        .mb-4 {
+            position: relative;
+        }
+
+        .form-label {
+            position: absolute;
+            top: 50%;
+            left: 1.25rem;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-control:focus + .form-label,
+        .form-control:not(:placeholder-shown) + .form-label {
+            top: -0.5rem;
+            left: 1rem;
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0 0.5rem;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
                 <i class="fas fa-dumbbell me-2"></i>
                 <span class="fw-bold">FitForge</span>
             </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">
+                            <i class="fas fa-history me-2"></i>History
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/metrics">
+                            <i class="fas fa-plus me-2"></i>Metrics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger ms-2 px-3" href="/logout">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div class="container py-5">
+    <div class="container py-5 mt-5">
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold">Update Workout</h1>
             <p class="lead text-light-50">Make changes to your workout record</p>
@@ -74,26 +259,26 @@
                             <h5 class="mb-4">
                                 <i class="fas fa-info-circle me-2 text-primary"></i>Basic Information
                             </h5>
-                            
+
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="date" name="date" class="form-control" id="date" value="{{ entry['date'] }}" required>
+                                <label class="form-label" for="date">
                                     <i class="fas fa-calendar me-2"></i>Date
                                 </label>
-                                <input type="date" name="date" class="form-control" value="{{ entry['date'] }}" required>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="text" name="muscle_group" class="form-control" id="muscleGroup" value="{{ entry['muscle_group'] }}" required>
+                                <label class="form-label" for="muscleGroup">
                                     <i class="fas fa-dumbbell me-2"></i>Muscle Group
                                 </label>
-                                <input type="text" name="muscle_group" class="form-control" value="{{ entry['muscle_group'] }}" required>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="number" name="body_weight" class="form-control" id="bodyWeight" value="{{ entry['body_weight'] }}" required>
+                                <label class="form-label" for="bodyWeight">
                                     <i class="fas fa-weight-scale me-2"></i>Body Weight (kg)
                                 </label>
-                                <input type="number" name="body_weight" class="form-control" value="{{ entry['body_weight'] }}" required>
                             </div>
                         </div>
 
@@ -103,24 +288,24 @@
                             </h5>
 
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="text" name="exercise_name" class="form-control" id="exerciseName" value="{{ entry['exercises'][0]['exercise_name'] }}" required>
+                                <label class="form-label" for="exerciseName">
                                     <i class="fas fa-running me-2"></i>Exercise Name
                                 </label>
-                                <input type="text" name="exercise_name" class="form-control" value="{{ entry['exercises'][0]['exercise_name'] }}" required>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="number" name="weight" class="form-control" id="weight" value="{{ entry['exercises'][0]['weight'] }}" required>
+                                <label class="form-label" for="weight">
                                     <i class="fas fa-weight-hanging me-2"></i>Weight (kg)
                                 </label>
-                                <input type="number" name="weight" class="form-control" value="{{ entry['exercises'][0]['weight'] }}" required>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label">
+                                <input type="number" name="reps" class="form-control" id="reps" value="{{ entry['exercises'][0]['reps'] }}" required>
+                                <label class="form-label" for="reps">
                                     <i class="fas fa-redo me-2"></i>Reps
                                 </label>
-                                <input type="number" name="reps" class="form-control" value="{{ entry['exercises'][0]['reps'] }}" required>
                             </div>
                         </div>
 
