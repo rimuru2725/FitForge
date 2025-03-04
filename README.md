@@ -130,6 +130,16 @@ graph LR
 </p>
 
 <p align="center">
+  <img src="screenshots/recipes3.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Personalized Meal Plan Based on Calories.</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/recipes4.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
+  <br><em>Personalized Meal Plan Based on Calories.</em>
+</p>
+
+<p align="center">
   <img src="screenshots/viewmetrics.png" width="800" style="border-radius: 10px; margin-bottom: 10px">
   <br><em>Progress Tracking - Visual representation of fitness journey</em>
 </p>

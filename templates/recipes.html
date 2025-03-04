@@ -237,6 +237,234 @@
         .empty-state:hover {
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
+        
+        /* New Styles for Tab System */
+        .nav-tabs {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 2rem;
+        }
+        
+        .nav-tabs .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 10px 10px 0 0;
+            padding: 1rem 2rem;
+            margin-right: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: white;
+            background: rgba(13, 110, 253, 0.3);
+            border-bottom: 3px solid #0d6efd;
+        }
+        
+        .nav-tabs .nav-link:hover:not(.active) {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .nav-tabs .nav-link i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Meal Plan Card Styles */
+        .meal-card {
+            border-left: 5px solid;
+            margin-bottom: 1.5rem;
+        }
+        
+        .breakfast-card {
+            border-color: #5cb85c;
+        }
+        
+        .lunch-card {
+            border-color: #f0ad4e;
+        }
+        
+        .dinner-card {
+            border-color: #d9534f;
+        }
+        
+        .snack-card {
+            border-color: #5bc0de;
+        }
+        
+        .meal-type {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        
+        .meal-item {
+            padding: 0.75rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .meal-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        /* Form Toggle Animation */
+        .toggle-forms {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .toggle-forms.show {
+            opacity: 1;
+            height: auto;
+            margin-top: 2rem;
+        }
+        
+        /* Range Slider Styling */
+        .form-range::-webkit-slider-thumb {
+            background: #0d6efd;
+        }
+        
+        .form-range::-webkit-slider-runnable-track {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .range-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        
+        /* Diet Type Toggle Styling */
+        .diet-toggle {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50px;
+            padding: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .diet-toggle label {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .diet-toggle input[type="radio"] {
+            display: none;
+        }
+        
+        .diet-toggle input[type="radio"]:checked + label {
+            background: #0d6efd;
+            color: white;
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+        }
+        
+        /* Meal Plan Summary Styling */
+        .daily-summary {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .summary-item {
+            display: inline-flex;
+            align-items: center;
+            margin: 0.5rem 1rem 0.5rem 0;
+        }
+        
+        .summary-item i {
+            margin-right: 0.5rem;
+            color: #0d6efd;
+        }
+
+        /* Alert styling */
+        .alert {
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            border: none;
+            background: rgba(255, 193, 7, 0.2);
+            border-left: 5px solid #ffc107;
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.2);
+            border-left-color: #ffc107;
+        }
+
+        /* Calorie adjustment info */
+        .calorie-adjustment {
+            background: rgba(13, 110, 253, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #0d6efd;
+        }
+
+        /* Macro breakdown */
+        .macro-breakdown {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .macro-chart {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .macro-protein {
+            height: 100%;
+            background: #0d6efd;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .macro-carbs {
+            height: 100%;
+            background: #5cb85c;
+        }
+
+        .macro-fats {
+            height: 100%;
+            background: #f0ad4e;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .macro-legend {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        .macro-legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .macro-legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body class="text-light">
@@ -278,67 +506,416 @@
 
     <div class="container py-5 mt-5">
         <div class="text-center mb-5">
-            <h1 class="display-4 fw-bold">Healthy Recipes</h1>
-            <p class="lead text-light-50">Discover nutritious and delicious meals for your fitness journey</p>
+            <h1 class="display-4 fw-bold">Nutrition Center</h1>
+            <p class="lead text-light-50">Find recipes or generate complete meal plans for your fitness journey</p>
         </div>
 
-        <div class="search-container">
-            <form method="POST" class="mb-0">
-                <div class="input-group">
-                    <input type="text" name="query" class="form-control" placeholder="Search by ingredients or recipe name..." required>
-                    <button type="submit" class="btn btn-primary btn-search btn-glow">
-                        <i class="fas fa-search me-2"></i>Search Recipes
-                    </button>
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>{{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Tab navigation -->
+        <ul class="nav nav-tabs" id="nutritionTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="recipes-tab" data-bs-toggle="tab" data-bs-target="#recipes-content" type="button" role="tab">
+                    <i class="fas fa-utensils"></i> Find Recipes
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="mealplan-tab" data-bs-toggle="tab" data-bs-target="#mealplan-content" type="button" role="tab">
+                    <i class="fas fa-calendar-day"></i> Generate Meal Plan
+                </button>
+            </li>
+        </ul>
+
+        <!-- Tab content -->
+        <div class="tab-content" id="nutritionTabContent">
+            <!-- Recipes Tab -->
+            <div class="tab-pane fade show active" id="recipes-content" role="tabpanel">
+                <div class="search-container">
+                    <form method="POST" action="/recipes" class="mb-0">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control" placeholder="Search by ingredients or recipe name..." required>
+                            <button type="submit" class="btn btn-primary btn-search btn-glow">
+                                <i class="fas fa-search me-2"></i>Search Recipes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
 
-        {% if recipes %}
-            <div class="row g-4">
-                {% for recipe in recipes %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card h-100">
-                            {% if recipe.image %}
-                                <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
-                            {% endif %}
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold mb-3">{{ recipe.title }}</h5>
-                                <div class="nutrition-info">
-                                    <div class="nutrition-item">
-                                        <i class="fas fa-fire me-2"></i>{{ recipe.calories }} kcal
-                                    </div>
-                                    <div class="nutrition-item">
-                                        <i class="fas fa-drumstick-bite me-2"></i>{{ recipe.protein }}g protein
-                                    </div>
-                                    <div class="nutrition-item">
-                                        <i class="fas fa-cheese me-2"></i>{{ recipe.fats }}g fats
-                                    </div>
-                                    <div class="nutrition-item">
-                                        <i class="fas fa-bread-slice me-2"></i>{{ recipe.carbs }}g carbs
+                {% if recipes %}
+                    <div class="row g-4">
+                        {% for recipe in recipes %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100">
+                                    {% if recipe.image %}
+                                        <img src="{{ recipe.image }}" class="card-img-top" alt="{{ recipe.title }}">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold mb-3">{{ recipe.title }}</h5>
+                                        <div class="nutrition-info">
+                                            <div class="nutrition-item">
+                                                <i class="fas fa-fire me-2"></i>{{ recipe.calories }} kcal
+                                            </div>
+                                            <div class="nutrition-item">
+                                                <i class="fas fa-drumstick-bite me-2"></i>{{ recipe.protein }}g protein
+                                            </div>
+                                            <div class="nutrition-item">
+                                                <i class="fas fa-cheese me-2"></i>{{ recipe.fats }}g fats
+                                            </div>
+                                            <div class="nutrition-item">
+                                                <i class="fas fa-bread-slice me-2"></i>{{ recipe.carbs }}g carbs
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <a href="https://spoonacular.com/recipes/{{ recipe.title.replace(' ', '-') }}-{{ recipe.id }}" 
+                                               target="_blank" 
+                                               class="btn btn-primary btn-glow">
+                                                <i class="fas fa-external-link-alt me-2"></i>View Full Recipe
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="text-center mt-3">
-                                    <a href="https://spoonacular.com/recipes/{{ recipe.title.replace(' ', '-') }}-{{ recipe.id }}" 
-                                       target="_blank" 
-                                       class="btn btn-primary btn-glow">
-                                        <i class="fas fa-external-link-alt me-2"></i>View Full Recipe
-                                    </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% elif request.method == 'POST' and recipes is defined %}
+                    <div class="card empty-state">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-search fa-3x mb-3 text-light-50"></i>
+                            <p class="lead mb-0">No recipes found. Try searching for something else!</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Meal Plan Tab -->
+            <div class="tab-pane fade" id="mealplan-content" role="tabpanel">
+                <div class="search-container">
+                    <form method="POST" action="/generate-meal-plan" class="mb-0">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <label class="form-label mb-3">Target Calories</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="range" class="form-range" min="1200" max="3000" step="100" id="calorieRange" name="target_calories" value="2000">
+                                    <span class="ms-3 range-value" id="calorieValue">2000</span>
+                                    <span class="ms-1">kcal</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Diet Preference</label>
+                                <div class="diet-toggle">
+                                    <input type="radio" name="diet_type" id="vegetarian" value="vegetarian">
+                                    <label for="vegetarian"><i class="fas fa-leaf me-2"></i>Vegetarian</label>
+                                    
+                                    <input type="radio" name="diet_type" id="non-vegetarian" value="non-vegetarian" checked>
+                                    <label for="non-vegetarian"><i class="fas fa-drumstick-bite me-2"></i>Non-Vegetarian</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg btn-glow px-4 py-3">
+                                <i class="fas fa-utensils me-2"></i>Generate Meal Plan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {% if meal_plan %}
+                    {% if target_calories != closest_calories %}
+                    <div class="calorie-adjustment">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-info-circle me-3 fs-4"></i>
+                            <div>
+                                <p class="mb-0">Your requested <strong>{{ target_calories }} calories</strong> has been adjusted to the closest available plan of <strong>{{ closest_calories }} calories</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="daily-summary">
+                        <h3 class="mb-3">Daily Nutrition Summary</h3>
+                        <div class="d-flex flex-wrap">
+                            <div class="summary-item">
+                                <i class="fas fa-fire"></i>
+                                <div>
+                                    <div class="fw-bold">{{ meal_plan.total_calories }} kcal</div>
+                                    <small>Total Calories</small>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <i class="fas fa-drumstick-bite"></i>
+                                <div>
+                                    <div class="fw-bold">{{ meal_plan.total_protein }}g</div>
+                                    <small>Protein</small>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <i class="fas fa-cheese"></i>
+                                <div>
+                                    <div class="fw-bold">{{ meal_plan.total_fats }}g</div>
+                                    <small>Fats</small>
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <i class="fas fa-bread-slice"></i>
+                                <div>
+                                    <div class="fw-bold">{{ meal_plan.total_carbs }}g</div>
+                                    <small>Carbs</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Macro breakdown chart -->
+                        <div class="macro-breakdown mt-3">
+                            <h6 class="mb-3">Macronutrient Distribution</h6>
+                            {% set protein_percent = (meal_plan.total_protein * 4 / meal_plan.total_calories * 100) | round %}
+                            {% set carbs_percent = (meal_plan.total_carbs * 4 / meal_plan.total_calories * 100) | round %}
+                            {% set fats_percent = (meal_plan.total_fats * 9 / meal_plan.total_calories * 100) | round %}
+                            
+                            <div class="macro-chart d-flex">
+                                <div class="macro-protein" style="width: {{ protein_percent }}%;"></div>
+                                <div class="macro-carbs" style="width: {{ carbs_percent }}%;"></div>
+                                <div class="macro-fats" style="width: {{ fats_percent }}%;"></div>
+                            </div>
+                            <div class="macro-legend">
+                                <div class="macro-legend-item">
+                                    <div class="macro-legend-color" style="background: #0d6efd;"></div>
+                                    <span>Protein {{ protein_percent }}%</span>
+                                </div>
+                                <div class="macro-legend-item">
+                                    <div class="macro-legend-color" style="background: #5cb85c;"></div>
+                                    <span>Carbs {{ carbs_percent }}%</span>
+                                </div>
+                                <div class="macro-legend-item">
+                                    <div class="macro-legend-color" style="background: #f0ad4e;"></div>
+                                    <span>Fats {{ fats_percent }}%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+
+                    <div class="row mt-4">
+                        <!-- Breakfast -->
+                        <div class="col-md-6">
+                            <div class="card meal-card breakfast-card mb-4">
+                                <div class="card-body">
+                                    <div class="meal-type"><i class="fas fa-sun me-2"></i>Breakfast</div>
+                                    <h4 class="card-title fw-bold my-3">{{ meal_plan.breakfast.name }}</h4>
+                                    
+                                    <div class="nutrition-info mb-3">
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-fire me-2"></i>{{ meal_plan.breakfast.calories }} kcal
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-drumstick-bite me-2"></i>{{ meal_plan.breakfast.protein }}g protein
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-bread-slice me-2"></i>{{ meal_plan.breakfast.carbs }}g carbs
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-cheese me-2"></i>{{ meal_plan.breakfast.fats }}g fats
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="mb-3">{{ meal_plan.breakfast.description }}</p>
+                                    
+                                    <h6 class="fw-bold mb-2">Ingredients:</h6>
+                                    <ul class="mb-3">
+                                        {% for ingredient in meal_plan.breakfast.ingredients %}
+                                            <li>{{ ingredient }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Lunch -->
+                        <div class="col-md-6">
+                            <div class="card meal-card lunch-card mb-4">
+                                <div class="card-body">
+                                    <div class="meal-type"><i class="fas fa-cloud-sun me-2"></i>Lunch</div>
+                                    <h4 class="card-title fw-bold my-3">{{ meal_plan.lunch.name }}</h4>
+                                    
+                                    <div class="nutrition-info mb-3">
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-fire me-2"></i>{{ meal_plan.lunch.calories }} kcal
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-drumstick-bite me-2"></i>{{ meal_plan.lunch.protein }}g protein
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-bread-slice me-2"></i>{{ meal_plan.lunch.carbs }}g carbs
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-cheese me-2"></i>{{ meal_plan.lunch.fats }}g fats
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="mb-3">{{ meal_plan.lunch.description }}</p>
+                                    
+                                    <h6 class="fw-bold mb-2">Ingredients:</h6>
+                                    <ul class="mb-3">
+                                        {% for ingredient in meal_plan.lunch.ingredients %}
+                                            <li>{{ ingredient }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Snack -->
+                        <div class="col-md-6">
+                            <div class="card meal-card snack-card mb-4">
+                                <div class="card-body">
+                                    <div class="meal-type"><i class="fas fa-apple-alt me-2"></i>Snack</div>
+                                    <h4 class="card-title fw-bold my-3">{{ meal_plan.snack.name }}</h4>
+                                    
+                                    <div class="nutrition-info mb-3">
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-fire me-2"></i>{{ meal_plan.snack.calories }} kcal
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-drumstick-bite me-2"></i>{{ meal_plan.snack.protein }}g protein
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-bread-slice me-2"></i>{{ meal_plan.snack.carbs }}g carbs
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-cheese me-2"></i>{{ meal_plan.snack.fats }}g fats
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="mb-3">{{ meal_plan.snack.description }}</p>
+                                    
+                                    <h6 class="fw-bold mb-2">Ingredients:</h6>
+                                    <ul class="mb-3">
+                                        {% for ingredient in meal_plan.snack.ingredients %}
+                                            <li>{{ ingredient }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dinner -->
+                        <div class="col-md-6">
+                            <div class="card meal-card dinner-card mb-4">
+                                <div class="card-body">
+                                    <div class="meal-type"><i class="fas fa-moon me-2"></i>Dinner</div>
+                                    <h4 class="card-title fw-bold my-3">{{ meal_plan.dinner.name }}</h4>
+                                    
+                                    <div class="nutrition-info mb-3">
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-fire me-2"></i>{{ meal_plan.dinner.calories }} kcal
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-drumstick-bite me-2"></i>{{ meal_plan.dinner.protein }}g protein
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-bread-slice me-2"></i>{{ meal_plan.dinner.carbs }}g carbs
+                                        </div>
+                                        <div class="nutrition-item">
+                                            <i class="fas fa-cheese me-2"></i>{{ meal_plan.dinner.fats }}g fats
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="mb-3">{{ meal_plan.dinner.description }}</p>
+                                    
+                                    <h6 class="fw-bold mb-2">Ingredients:</h6>
+                                    <ul class="mb-3">
+                                        {% for ingredient in meal_plan.dinner.ingredients %}
+                                            <li>{{ ingredient }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4 mb-5">
+                        <button class="btn btn-outline-light btn-lg" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i>Print Meal Plan
+                        </button>
+                        <a href="#" class="btn btn-primary btn-lg ms-3">
+                            <i class="fas fa-save me-2"></i>Save to My Plans
+                        </a>
+                    </div>
+                {% endif %}
             </div>
-        {% else %}
-            <div class="card empty-state">
-                <div class="card-body text-center p-5">
-                    <i class="fas fa-search fa-3x mb-3 text-light-50"></i>
-                    <p class="lead mb-0">No recipes found. Try searching for something else!</p>
-                </div>
-            </div>
-        {% endif %}
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update calorie range value display
+        const calorieRange = document.getElementById('calorieRange');
+        const calorieValue = document.getElementById('calorieValue');
+
+        if (calorieRange) {
+            calorieRange.addEventListener('input', function() {
+                calorieValue.textContent = this.value;
+            });
+        }
+
+        // Show appropriate tab based on action
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if show_meal_plan %}
+            // This code only runs if show_meal_plan is true
+            const mealPlanTab = document.getElementById('mealplan-tab');
+            if (mealPlanTab) {
+                // Using Bootstrap's tab method
+                new bootstrap.Tab(mealPlanTab).show();
+                // Or as a fallback
+                mealPlanTab.click();
+            }
+            {% endif %}
+
+            // Set initial values based on URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('target_calories')) {
+                const targetCalories = urlParams.get('target_calories');
+                if (calorieRange && calorieValue) {
+                    calorieRange.value = targetCalories;
+                    calorieValue.textContent = targetCalories;
+                }
+            }
+
+            if (urlParams.has('diet_type')) {
+                const dietType = urlParams.get('diet_type');
+                const radioButton = document.getElementById(dietType);
+                if (radioButton) {
+                    radioButton.checked = true;
+                }
+            }
+        });
+
+        // Initialize any values from the meal plan if it exists
+        {% if meal_plan %}
+        document.addEventListener('DOMContentLoaded', function() {
+            const calorieRange = document.getElementById('calorieRange');
+            const calorieValue = document.getElementById('calorieValue');
+            
+            if (calorieRange && calorieValue) {
+                calorieRange.value = {{ target_calories }};
+                calorieValue.textContent = {{ target_calories }};
+            }
+            
+            const dietType = "{{ diet_type }}";
+            const radioButton = document.getElementById(dietType);
+            if (radioButton) {
+                radioButton.checked = true;
+            }
+        });
+        {% endif %}
+    </script>
 </body>
 </html>

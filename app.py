@@ -1,27 +1,38 @@
 import os
 import json
 import certifi
+import urllib.parse
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 import requests
+import urllib.parse
 from datetime import datetime, timedelta
 from functools import wraps
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
 
-
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 bcrypt = Bcrypt(app)
 
 
-
-
 # MongoDB setup
-client = MongoClient(os.getenv('MONGODB_URI'),server_api=ServerApi('1'))
+mongodb_username = os.getenv('MONGODB_USERNAME')
+mongodb_password = os.getenv('MONGODB_PASSWORD')
+
+# URL encode the username and password
+encoded_username = urllib.parse.quote_plus(mongodb_username)
+encoded_password = urllib.parse.quote_plus(mongodb_password)
+
+# Reconstruct the connection string with encoded credentials
+connection_string = f"mongodb+srv://{encoded_username}:{encoded_password}@fitforge.ltei2.mongodb.net/?retryWrites=true&w=majority&appName=FitForge"
+
+# Create MongoDB client
+client = MongoClient(connection_string, server_api=ServerApi('1'))
 db = client.workout_planner
 users_collection = db.users
 history_collection = db.history
@@ -388,7 +399,261 @@ def recipes():
 
     return render_template('recipes.html')
 
-
+@app.route('/generate-meal-plan', methods=['POST'])
+@login_required
+def generate_meal_plan():
+    target_calories = int(request.form['target_calories'])
+    # Fix diet_type to match HTML form values
+    diet_type = request.form['diet_type']
+    
+    # Map from HTML form value to backend value
+    diet_map = {
+        "vegetarian": "veg",
+        "non-vegetarian": "non-veg"
+    }
+    
+    backend_diet_type = diet_map.get(diet_type, "veg")
+    
+    # Predefined meal plans based on calories and diet type
+    meal_plans = {
+        "veg": {
+            "1500": {
+                "breakfast": [
+                    {"name": "Oatmeal with Berries and Nuts", "calories": 350, "protein": 12, "carbs": 45, "fats": 14, "image": "/api/placeholder/400/300"},
+                    {"name": "Greek Yogurt Parfait", "calories": 320, "protein": 15, "carbs": 40, "fats": 10, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Quinoa Salad with Chickpeas", "calories": 450, "protein": 15, "carbs": 60, "fats": 18, "image": "/api/placeholder/400/300"},
+                    {"name": "Vegetable Wrap with Hummus", "calories": 420, "protein": 14, "carbs": 55, "fats": 15, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Stir-fried Tofu with Vegetables", "calories": 400, "protein": 20, "carbs": 30, "fats": 22, "image": "/api/placeholder/400/300"},
+                    {"name": "Lentil Soup with Whole Grain Bread", "calories": 380, "protein": 18, "carbs": 50, "fats": 10, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Apple with Almond Butter", "calories": 200, "protein": 5, "carbs": 25, "fats": 10, "image": "/api/placeholder/400/300"},
+                    {"name": "Vegetable Sticks with Guacamole", "calories": 150, "protein": 3, "carbs": 15, "fats": 10, "image": "/api/placeholder/400/300"}
+                ]
+            },
+            "2000": {
+                "breakfast": [
+                    {"name": "Smoothie Bowl with Granola", "calories": 450, "protein": 15, "carbs": 65, "fats": 15, "image": "/api/placeholder/400/300"},
+                    {"name": "Avocado Toast with Eggs", "calories": 480, "protein": 18, "carbs": 40, "fats": 28, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Buddha Bowl with Tahini Dressing", "calories": 550, "protein": 20, "carbs": 70, "fats": 22, "image": "/api/placeholder/400/300"},
+                    {"name": "Vegetarian Burrito Bowl", "calories": 580, "protein": 22, "carbs": 75, "fats": 20, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Eggplant Parmesan with Salad", "calories": 520, "protein": 22, "carbs": 40, "fats": 30, "image": "/api/placeholder/400/300"},
+                    {"name": "Veggie Stir Fry with Brown Rice", "calories": 480, "protein": 18, "carbs": 65, "fats": 18, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Protein Smoothie", "calories": 250, "protein": 20, "carbs": 25, "fats": 8, "image": "/api/placeholder/400/300"},
+                    {"name": "Trail Mix", "calories": 200, "protein": 6, "carbs": 20, "fats": 12, "image": "/api/placeholder/400/300"}
+                ]
+            },
+            "2500": {
+                "breakfast": [
+                    {"name": "Protein Pancakes with Fruit", "calories": 550, "protein": 25, "carbs": 70, "fats": 20, "image": "/api/placeholder/400/300"},
+                    {"name": "Tofu Scramble with Vegetables", "calories": 520, "protein": 28, "carbs": 35, "fats": 30, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Falafel Wrap with Tahini Sauce", "calories": 650, "protein": 22, "carbs": 80, "fats": 28, "image": "/api/placeholder/400/300"},
+                    {"name": "Quinoa Power Bowl", "calories": 680, "protein": 25, "carbs": 85, "fats": 25, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Vegetable Lasagna", "calories": 620, "protein": 25, "carbs": 65, "fats": 30, "image": "/api/placeholder/400/300"},
+                    {"name": "Stuffed Bell Peppers with Rice", "calories": 580, "protein": 20, "carbs": 70, "fats": 25, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Protein Bar", "calories": 300, "protein": 20, "carbs": 30, "fats": 12, "image": "/api/placeholder/400/300"},
+                    {"name": "Yogurt with Nuts and Honey", "calories": 280, "protein": 15, "carbs": 25, "fats": 15, "image": "/api/placeholder/400/300"}
+                ]
+            }
+        },
+        "non-veg": {
+            "1500": {
+                "breakfast": [
+                    {"name": "Scrambled Eggs with Spinach", "calories": 320, "protein": 20, "carbs": 10, "fats": 22, "image": "/api/placeholder/400/300"},
+                    {"name": "Greek Yogurt with Berries", "calories": 300, "protein": 18, "carbs": 35, "fats": 10, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Grilled Chicken Salad", "calories": 420, "protein": 35, "carbs": 20, "fats": 22, "image": "/api/placeholder/400/300"},
+                    {"name": "Tuna Sandwich on Whole Grain", "calories": 450, "protein": 30, "carbs": 40, "fats": 18, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Baked Salmon with Vegetables", "calories": 450, "protein": 35, "carbs": 15, "fats": 25, "image": "/api/placeholder/400/300"},
+                    {"name": "Turkey Meatballs with Zoodles", "calories": 380, "protein": 30, "carbs": 15, "fats": 20, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Protein Shake", "calories": 180, "protein": 25, "carbs": 10, "fats": 3, "image": "/api/placeholder/400/300"},
+                    {"name": "Boiled Eggs", "calories": 140, "protein": 12, "carbs": 1, "fats": 10, "image": "/api/placeholder/400/300"}
+                ]
+            },
+            "2000": {
+                "breakfast": [
+                    {"name": "Protein Oatmeal with Egg Whites", "calories": 450, "protein": 30, "carbs": 50, "fats": 15, "image": "/api/placeholder/400/300"},
+                    {"name": "Turkey Bacon and Egg Muffins", "calories": 420, "protein": 35, "carbs": 20, "fats": 22, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Chicken and Quinoa Bowl", "calories": 550, "protein": 40, "carbs": 50, "fats": 20, "image": "/api/placeholder/400/300"},
+                    {"name": "Salmon Poke Bowl", "calories": 520, "protein": 35, "carbs": 45, "fats": 22, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Lean Beef Stir Fry", "calories": 520, "protein": 40, "carbs": 30, "fats": 25, "image": "/api/placeholder/400/300"},
+                    {"name": "Grilled Fish Tacos", "calories": 480, "protein": 35, "carbs": 40, "fats": 20, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Cottage Cheese with Fruit", "calories": 250, "protein": 25, "carbs": 20, "fats": 8, "image": "/api/placeholder/400/300"},
+                    {"name": "Turkey and Avocado Roll-ups", "calories": 220, "protein": 20, "carbs": 5, "fats": 15, "image": "/api/placeholder/400/300"}
+                ]
+            },
+            "2500": {
+                "breakfast": [
+                    {"name": "Steak and Eggs with Avocado", "calories": 580, "protein": 45, "carbs": 10, "fats": 40, "image": "/api/placeholder/400/300"},
+                    {"name": "Protein Pancakes with Turkey Bacon", "calories": 620, "protein": 40, "carbs": 50, "fats": 25, "image": "/api/placeholder/400/300"}
+                ],
+                "lunch": [
+                    {"name": "Chicken Caesar Wrap", "calories": 680, "protein": 50, "carbs": 40, "fats": 35, "image": "/api/placeholder/400/300"},
+                    {"name": "Tuna Salad Stuffed Avocados", "calories": 650, "protein": 45, "carbs": 20, "fats": 45, "image": "/api/placeholder/400/300"}
+                ],
+                "dinner": [
+                    {"name": "Grilled Steak with Sweet Potato", "calories": 680, "protein": 50, "carbs": 45, "fats": 30, "image": "/api/placeholder/400/300"},
+                    {"name": "Salmon with Asparagus and Quinoa", "calories": 650, "protein": 45, "carbs": 40, "fats": 35, "image": "/api/placeholder/400/300"}
+                ],
+                "snacks": [
+                    {"name": "Beef Jerky with Nuts", "calories": 320, "protein": 30, "carbs": 10, "fats": 20, "image": "/api/placeholder/400/300"},
+                    {"name": "Protein Bar and Banana", "calories": 350, "protein": 25, "carbs": 40, "fats": 12, "image": "/api/placeholder/400/300"}
+                ]
+            }
+        }
+    }
+    
+    # Find closest calorie plan
+    calorie_options = [1500, 2000, 2500]
+    closest_cal = min(calorie_options, key=lambda x: abs(x - target_calories))
+    closest_cal_str = str(closest_cal)
+    
+    # Get plan based on diet type and closest calorie option
+    plan_data = meal_plans.get(backend_diet_type, {}).get(closest_cal_str, {})
+    
+    # If no exact match, default to a standard plan
+    if not plan_data:
+        flash("Couldn't find an exact meal plan match. Showing a standard plan.", "warning")
+        plan_data = meal_plans["veg"]["2000"]  # Default plan
+    
+    # Format to match the expected structure in the template
+    import random
+    
+    # Helper function to add missing fields
+    def enhance_meal(meal):
+        # Add description if not present
+        if 'description' not in meal:
+            descriptions = {
+                'breakfast': [
+                    "A nutritious start to your day with a perfect balance of proteins and carbs.",
+                    "Kickstart your morning with this energy-packed meal."
+                ],
+                'lunch': [
+                    "A satisfying midday meal to keep you going strong.",
+                    "This balanced lunch provides sustained energy for the afternoon."
+                ],
+                'dinner': [
+                    "A flavorful dinner that's both satisfying and nutritious.",
+                    "End your day with this nutrient-rich meal that won't weigh you down."
+                ],
+                'snack': [
+                    "A perfect between-meal boost to maintain energy levels.",
+                    "This healthy snack will help you avoid unhealthy cravings."
+                ]
+            }
+            
+            # Find description based on meal name
+            for meal_type, desc_list in descriptions.items():
+                if meal_type in meal.get('name', '').lower():
+                    meal['description'] = random.choice(desc_list)
+                    break
+            # Default description if none matched
+            if 'description' not in meal:
+                meal['description'] = "A balanced meal with optimal macronutrient distribution."
+        
+        # Add ingredients if not present
+        if 'ingredients' not in meal:
+            common_ingredients = {
+                'Oatmeal': ['Rolled oats', 'Almond milk', 'Honey', 'Mixed berries', 'Chia seeds'],
+                'Greek Yogurt': ['Greek yogurt', 'Honey', 'Granola', 'Fresh berries', 'Nuts'],
+                'Smoothie': ['Banana', 'Spinach', 'Protein powder', 'Almond milk', 'Chia seeds'],
+                'Pancakes': ['Whole grain flour', 'Eggs', 'Milk', 'Protein powder', 'Berries'],
+                'Quinoa': ['Quinoa', 'Olive oil', 'Bell peppers', 'Cucumber', 'Cherry tomatoes'],
+                'Salad': ['Mixed greens', 'Cherry tomatoes', 'Cucumber', 'Bell peppers', 'Olive oil'],
+                'Wrap': ['Whole grain tortilla', 'Hummus', 'Cucumber', 'Tomatoes', 'Spinach'],
+                'Bowl': ['Brown rice', 'Avocado', 'Black beans', 'Bell peppers', 'Lime juice'],
+                'Tofu': ['Firm tofu', 'Soy sauce', 'Garlic', 'Broccoli', 'Bell peppers'],
+                'Eggs': ['Eggs', 'Spinach', 'Cherry tomatoes', 'Feta cheese', 'Black pepper'],
+                'Chicken': ['Chicken breast', 'Olive oil', 'Garlic powder', 'Mixed herbs', 'Lemon juice'],
+                'Tuna': ['Canned tuna', 'Greek yogurt', 'Lemon juice', 'Dill', 'Red onion'],
+                'Salmon': ['Salmon fillet', 'Lemon', 'Dill', 'Olive oil', 'Black pepper'],
+                'Turkey': ['Ground turkey', 'Egg', 'Breadcrumbs', 'Italian herbs', 'Garlic powder'],
+                'Beef': ['Lean beef', 'Garlic', 'Ginger', 'Soy sauce', 'Broccoli'],
+                'Protein Shake': ['Protein powder', 'Almond milk', 'Banana', 'Ice', 'Cinnamon'],
+                'Nuts': ['Almonds', 'Cashews', 'Walnuts', 'Dried cranberries', 'Dark chocolate chips'],
+                'Bar': ['Dates', 'Oats', 'Protein powder', 'Nut butter', 'Dark chocolate chips'],
+            }
+            
+            meal['ingredients'] = []
+            for key, ingredients in common_ingredients.items():
+                if key.lower() in meal.get('name', '').lower():
+                    meal['ingredients'].extend(ingredients[:3])  # Add a few relevant ingredients
+            
+            # Add some generic ingredients if none matched
+            if not meal['ingredients']:
+                if 'veg' in backend_diet_type:
+                    meal['ingredients'] = ['Mixed vegetables', 'Whole grains', 'Plant-based protein', 'Healthy fats', 'Herbs and spices']
+                else:
+                    meal['ingredients'] = ['Lean protein', 'Whole grains', 'Vegetables', 'Healthy fats', 'Herbs and spices']
+        
+        return meal
+    
+    # Create the formatted meal plan
+    formatted_plan = {}
+    
+    # Select one meal of each type and enhance it
+    for meal_type in ['breakfast', 'lunch', 'dinner', 'snacks']:
+        meals = plan_data.get(meal_type, [])
+        if meals:
+            selected_meal = random.choice(meals)
+            # For snacks, rename the key to match template
+            key = 'snack' if meal_type == 'snacks' else meal_type
+            formatted_plan[key] = enhance_meal(selected_meal.copy())
+    
+    # Calculate the total calories for the selected meal plan
+    total_calories = 0
+    total_protein = 0
+    total_carbs = 0
+    total_fats = 0
+    
+    for meal_key, meal in formatted_plan.items():
+        total_calories += meal['calories']
+        total_protein += meal['protein']
+        total_carbs += meal['carbs']
+        total_fats += meal['fats']
+    
+    # Add total nutrition to the formatted plan
+    formatted_plan['total_calories'] = total_calories
+    formatted_plan['total_protein'] = total_protein
+    formatted_plan['total_carbs'] = total_carbs
+    formatted_plan['total_fats'] = total_fats
+    
+    # Return to the recipes template with the meal plan data
+    return render_template(
+        'recipes.html', 
+        meal_plan=formatted_plan,
+        diet_type=diet_type,
+        target_calories=target_calories,
+        closest_calories=closest_cal,
+        show_meal_plan=True
+    )
 
 @app.route('/delete/<entry_id>', methods=['POST'])
 @login_required
@@ -423,6 +688,7 @@ def update_entry(entry_id):
 
 
 if __name__ == '__main__':
-    # Use environment variable for debug mode
+    port = int(os.environ.get("PORT", 10000))  # Default to 10000 if PORT not set
     debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
-    app.run(debug=debug_mode)
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
+
